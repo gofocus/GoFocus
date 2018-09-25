@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户信息</title>
+    <#include "/include_head.html"/>
+
+    <script type="text/javascript">
+
+        $(function () {
+            $("#reg").dialog({
+                title: "用户信息",
+                autoOpen: true,
+                modal: true,
+                resizable: false,
+                width: 400,
+                height: 300,
+                buttons: {
+                    "修改": function () {
+                        $(this).submit();
+                    },
+                    "返回": function () {
+                        location.href = "/";
+                    }
+                }
+            }).validate({
+                rules: {
+                    password: {
+                        required: true,
+                        remote: "/user/validate_password"
+                    },
+                    new_password: {
+                        required: true,
+                        minlength: 2
+                    },
+                    validate_password: {
+                        required: true,
+                        equalTo: "#new_password"
+                    }
+                },
+                messages: {
+                    password: {
+                        required: "输入原密码",
+                        remote: "密码错误重新输入"
+                    },
+                    new_password: {
+                        required: "输入新密码",
+                        minlength: "最小长度为2"
+                    },
+                    validate_password: {
+                        required: "输入新密码",
+                        equalTo: "密码不一致"
+                    }
+                }
+            })
+        })
+
+    </script>
+</head>
+<body>
+<form id="reg">
+    <p>
+        <label>昵称：</label>
+        ${userdetail.email}
+    </p>
+    <p>
+        <label>地址：</label>
+    </p>
+    <p>
+        <label>性别：</label>
+        ${userdetail.sex}
+    </p>
+
+
+</form>
+
+
+</body>
+</html>

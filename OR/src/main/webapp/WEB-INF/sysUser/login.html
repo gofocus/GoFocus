@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <#include "/ftl/include_head.html"/>
+    <script type="text/javascript">
+        $(function () {
+            $("#login").dialog({
+                title: "登录",
+                iconCls: "icon-man",
+                width: 400,
+                height: 250,
+                buttons: [{
+                    text: "登录",
+                    iconCls: "icon-man",
+                    handler: function () {
+                        $("#login").submit();
+                    }
+                }, {
+                    text: "返回",
+                    handler: function () {
+                        location.href = "/";
+                    }
+                }]
+            });
+
+            $("#username").validatebox({
+                required:true,
+                validType:'length[3 ,15]',
+                missingMessage:"请输入用户名"
+            });
+
+            $("#password").validatebox(
+                {
+                    required:true,
+                    validType:'length[3 ,20]',
+                    missingMessage:"请输入密码"
+                }
+            );
+        })
+    </script>
+
+</head>
+<body>
+<div >
+    <form id="login" action="/user/login" method="post">
+         <p>
+             <label for="username">账号</label><span class="star">*</span>
+             <input id="username" type="text" name="username" class="text" />
+         </p>
+         <p>
+             <label for="password">密码</label><span class="star">*</span>
+             <input id="password" type="password" name="password" class="text" />
+         </p>
+     </form>
+</div>
+</body>
+</html>

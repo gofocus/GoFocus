@@ -1,0 +1,61 @@
+
+
+<#include "/ftl/getScript.html"/>
+
+<div class="product-carousel">
+    <#list itemList as item>
+        <#if (item?index + 1) % 2 == 1>
+            <div class="col-md-12">
+                <div class="product-wrapper mb-40">
+                    <div class="product-img">
+                        <a href="/items/product-details/${item.id}"><img src="/pic/${item.pic}" alt="" style="width: 262px;height: 196px;"/></a>
+                        <div class="product-action">
+                            <a onclick="cart_addOneItem(${item.id})"><i class="pe-7s-cart">加入购物车</i></a>
+                            <@shiro.hasPermission name="item:update">
+                            <a onclick="editItem(${item.id})"><i class="pe-7s-folder editItem_btn"></i></a> <!--编辑商品按钮-->
+                        </@shiro.hasPermission>
+                    </div>
+                </div>
+                <div class="product-content">
+                    <div class="pro-title">
+                        <h3><a href="/items/product-details/${item.id}">${item.name}</a></h3>
+                    </div>
+                    <div class="price-reviews">
+                        <div class="price-box">
+                            <span class="price product-price">$${item.price}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <#if item?has_next>
+                <div class="product-wrapper mb-40 mrg-nn-xs">
+                    <div class="product-img">
+                        <a href="/items/product-details/${itemList[item?index + 1].id}"><img src="/pic/${itemList[item?index + 1].pic}" alt="" style="width: 262px;height: 196px;"/></a>
+                        <div class="product-action">
+                            <a onclick="cart_addOneItem(${itemList[item?index+1].id})"><i class="pe-7s-cart">加入购物车</i></a>
+                            <@shiro.hasPermission name="item:update">
+                            <a onclick="editItem(${itemList[item?index+1].id})"><i class="pe-7s-folder"></i></a>
+                            </@shiro.hasPermission>
+                        </div>
+                    </div>
+
+                    <div class="product-content">
+                        <div class="pro-title">
+                            <h3><a href="/items/product-details/${itemList[item?index + 1].id}">${itemList[item?index+ 1].name}</a></h3>
+                        </div>
+                        <div class="price-reviews">
+                            <div class="price-box">
+                                <span class="price product-price">$${itemList[item?index + 1].price}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </#if>
+    </div>
+</#if>
+</#list>
+</div>
+            
+
+

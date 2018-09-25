@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加商品</title>
+    <#include "/include_head.html"/>
+    <script type="text/javascript">
+        $(function () {
+            var name = $("#name");
+            var btn = $("#btn");
+            var price = $("#price");
+            $("#reg").dialog({title: "添加商品", autoOpen: true, modal: true, resizable: false, height: 340, width: 450, buttons:"#btn",
+               /* buttons: [{
+                    text:"提交",
+                    handler: function () {
+                        $("#reg").submit();
+                        }
+                    },
+                    {text:"返回",
+                        handler:function () {
+                        location.href = "/";
+                    }
+                    }]*/});
+            name.validatebox({required:true, missingMessage:"请输入商品名称"});
+            price.validatebox({required:true, missingMessage:"请输入商品价格"});
+            btn.find('a').click(function(){
+                $("#reg").form('submit',{
+                    url:'/items/addItems',
+                    onSubmit:function () {
+                        if (!name.validatebox('isValid')) {name.focus();return false;}
+                        else if (!price.validatebox('isValid')) {price.focus();return false;}
+//                        else if (!$("#pic").validatebox('isValid')) {$("#pic").focus();return false}
+                    },
+                    success:function (data) {
+                        alert("成功添加商品");
+//                      data = JSON.parse(data);
+                        data = eval('(' + data + ')');
+                        location.href="/items/product-details/" + data.id;
+                    }
+                })
+            })
+
+        })
+    </script>
+</head>
+
+<body>
+<div>
+    <form id="reg" enctype="multipart/form-data" method="post">
+        <p>
+            <input type="hidden" id="createtime" name="createtime" value="new date()"/>
+        </p>
+        <p>
+            <label for="name">名称：</label>
+            <input id="name" type="text" name="name" class="easyui-validatebox"/>
+            <span class="star">*</span>
+        </p>
+        <p>
+            <label for="price">价格：</label>
+            <input id="price" type="text" name="price" class="easyui-validatebox"/>
+            <span class="star">*</span>
+        </p>
+        <p>
+            <label for="detail">详细：</label>
+            <input id="detail" type="text" name="detail" class="easyui-validatebox"/>
+        </p>
+        <p>
+            <label for="pic">图片：</label>
+            <input id="pic" type="file" name="piccc" class="easyui-validatebox" />
+        </p>
+        <p>
+            <label for="kind">类型：</label>
+            <select name="classId" id="kind">
+                <option value="1" selected="selected">笔记本</option>
+                <option value="2">台式机</option>
+                <option value="3">平板</option>
+            </select>
+        </p>
+    </form>
+</div>
+<div id="btn">
+    <a href="#" class="easyui-linkbutton">添加</a>
+</div>
+</body>
+
+</html>

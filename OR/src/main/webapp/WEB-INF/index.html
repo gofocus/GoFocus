@@ -1,0 +1,342 @@
+﻿<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Home</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.png">
+
+    <!-- All css files are included here. -->
+    <!-- Bootstrap framework main css -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <!-- This core.css file contents all plugings css file. -->
+    <link rel="stylesheet" href="/css/core.css">
+    <!-- Theme shortcodes/elements style -->
+    <link rel="stylesheet" href="/css/shortcode/shortcodes.css">
+    <!-- Theme main style -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- Responsive css -->
+    <link rel="stylesheet" href="/css/responsive.css">
+    <!-- User style -->
+    <link rel="stylesheet" href="/css/custom.css">
+
+    <!--导航栏-->
+    <#include "/ftl/multiplex_header.ftl" />
+
+</head>
+
+<body>
+
+<@header_test/>
+
+<!-- slider-container-->
+<!--
+<div class="slider-container">
+	&lt;!&ndash; Slider Image &ndash;&gt;
+	<div id="mainSlider" class="nivoSlider slider-image">
+		&lt;!&ndash;<img src="img/slider/1.jpg" alt="" title="#htmlcaption1">&ndash;&gt;
+		<img src="img/slider/2.jpg" alt="" title="#htmlcaption2">
+		<img src="img/slider/fcddd9026c03900128c44ba40246452c.jpg" alt="" title="#htmlcaption2">
+	</div>
+	&lt;!&ndash; Slider Caption 1 &ndash;&gt;
+	<div id="htmlcaption1" class="nivo-html-caption slider-caption-1">
+		<div class="container">
+			<div class="slide1-text">
+				<div class="middle-text">
+					<div class="cap-dec cap-1 wow bounceInRight" data-wow-duration="0.9s" data-wow-delay="0s">
+						<h2>A BRAND</h2>
+					</div>
+					<div class="cap-dec cap-2 wow bounceInRight" data-wow-duration="1.2s" data-wow-delay="0.2s">
+						<h2>NEW ARRIVALS</h2>
+					</div>
+					<div class="cap-text wow bounceInRight" data-wow-duration="1.2s" data-wow-delay="0.3s">
+						Fascinating outdoor lounge chair with wooden chairs for outdoor ideas with outdoor chaise lounge chair.
+					</div>
+					<div class="cap-readmore wow bounceInUp" data-wow-duration="1.3s" data-wow-delay=".5s">
+						<a href="#">Shopping</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	&lt;!&ndash; Slider Caption 2 &ndash;&gt;
+	<div id="htmlcaption2" class="nivo-html-caption slider-caption-2">
+		<div class="container">
+			<div class="slide1-text">
+				<div class="middle-text">
+					<div class="cap-dec cap-1 wow bounceInRight" data-wow-duration="0.9s" data-wow-delay="0s">
+						<h2>A BRAND</h2>
+					</div>
+					<div class="cap-dec cap-2 wow bounceInRight" data-wow-duration="1.2s" data-wow-delay="0.2s">
+						<h2>NEW ARRIVALS</h2>
+					</div>
+					<div class="cap-text wow bounceInRight" data-wow-duration="1.2s" data-wow-delay="0.3s">
+						Fascinating outdoor lounge chair with wooden chairs for outdoor ideas with outdoor chaise lounge chair.
+					</div>
+					<div class="cap-readmore wow bounceInUp" data-wow-duration="1.3s" data-wow-delay=".5s">
+						<a href="#">Shopping</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+-->
+
+<div class="space-custom"></div>
+
+<!-- new-arrival-area -->
+<div class="new-arrival-area pt-100">
+    <div class="container">
+        <!--标题-->
+        <div class="row">
+            <div class="section-title text-center mb-20">
+                <h2>new arrivals</h2>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="product-tab">
+                    <!-- Nav tabs -->
+                    <ul class="custom-tab text-center mb-40">
+                        <li class="active"><a href="#home" data-toggle="tab">笔记本</a></li>
+                        <li><a href="#desktop" data-toggle="tab" onclick="ajax_index(2,$(this).attr('href'))">台式机</a>
+                        </li>
+                        <li><a href="#pad" data-toggle="tab" onclick="ajax_index(3,$(this).attr('href'))">平板</a></li>
+                    </ul>
+
+                    <!-- Tab panes -->
+                    <!--笔记本-->
+                    <div class="row" id="lapTop">
+                        <div class="tab-content">
+                            <!--笔记本-->
+                            <div class="tab-pane active" id="home"></div>
+
+                            <!--台式机-->
+                            <div class="tab-pane" id="desktop"></div>
+
+                            <!--平板-->
+                            <div class="tab-pane" id="pad"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="space-custom"></div>
+
+<!-- best-sell-area -->
+<div class="best-sell-area pt-30">
+    <div class="container">
+        <div class="row">
+            <div class="section-title text-center mb-50">
+                <h2>Bestseller Products </h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="product-carousel" id="bestSeller">
+                <#list itemList as item>
+                    <#if (item?index + 1) % 2 == 1>
+                        <div class="col-md-12">
+                            <div class="product-wrapper mb-40">
+                                <div class="product-img">
+                                    <a href="/items/product-details/${item.id}"><img src="/pic/${item.pic}" alt=""/></a>
+                                    <div class="product-action">
+                                        <a onclick="cart_addOneItem(${item.id})" ><i class="pe-7s-cart">加入购物车</i></a>
+                                        <@shiro.hasPermission name="item:update">
+                                        <a href="/items/editItem/${item.id}"><i class="pe-7s-folder"></i></a>
+                                        </@shiro.hasPermission>
+                                    </div>
+                                    <!--<div class="product-action">
+                                        &lt;!&ndash;<a href="#"><i class="pe-7s-cart"></i></a>&ndash;&gt;
+                                        &lt;!&ndash;<a href="#"><i class="pe-7s-like"></i></a>&ndash;&gt;
+                                        <a href="/items/editItem/${item.id}"><i class="pe-7s-folder"></i></a>
+                                        &lt;!&ndash;<a href="#" data-toggle="modal" data-target="#productModal"><i class="pe-7s-look"></i></a>&ndash;&gt;
+                                    </div>-->
+                                </div>
+                                <div class="product-content">
+                                    <div class="pro-title">
+                                        <h3><a href="/items/product-details/${item.id}">${item.name}</a></h3>
+                                    </div>
+                                    <div class="price-reviews">
+                                        <div class="price-box">
+                                            <span class="price product-price">$${item.price}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <#if item?has_next>
+                                <div class="product-wrapper mb-40 mrg-nn-xs">
+                                    <div class="product-img">
+                                        <a href="/items/product-details/${itemList[item?index + 1].id}"><img
+                                                src="/pic/${itemList[item?index + 1].pic}" alt=""/></a>
+                                        <div class="product-action">
+                                            <a onclick="cart_addOneItem(${itemList[item?index+1].id})" ><i class="pe-7s-cart">加入购物车</i></a>
+                                            <@shiro.hasPermission name="item:update">
+                                            <a href="/items/editItem/${itemList[item?index+1].id}"><i class="pe-7s-folder"></i></a>
+                                            </@shiro.hasPermission>
+                                         </div>
+                                        <!--<div class="product-action">
+                                            <a href="#"><i class="pe-7s-cart"></i></a>
+                                            <a href="#"><i class="pe-7s-like"></i></a>
+                                            <a href="/items/editItem/${itemList[item?index+1].id}"><i
+                                                    class="pe-7s-folder"></i></a>
+                                            <a href="#" data-toggle="modal" data-target="#productModal"><i
+                                                    class="pe-7s-look"></i></a>
+                                        </div>-->
+                                    </div>
+                                    <div class="product-content">
+                                        <div class="pro-title">
+                                            <h3><a href="/items/product-details/${itemList[item?index + 1].id}">${itemList[item?index
+                                                + 1].name}</a></h3>
+                                        </div>
+                                        <div class="price-reviews">
+                                            <div class="price-box">
+                                                <span class="price product-price">$${itemList[item?index + 1].price}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </#if>
+
+                        </div>
+                    </#if>
+                </#list>
+            </div>
+        </div>
+    </div>
+</div>
+
+ <!--latest-blog-area  -->
+<div class="latest-blog-area ptb-60">
+	<div class="container">
+		<div class="row">
+			<div class="section-title text-center mb-50">
+				<h2>latest blog</h2>
+			</div>
+		</div>			
+		<div class="row">
+			<div class="blog-active">
+				<div class="col-lg-12">
+					<div class="blog-wrapper mb-40">
+						<div class="blog-img">
+							<a href="#"><img src="img/blog/1.jpg" alt="" /></a>
+						</div>
+						<div class="blog-info">
+							<h3><a href="#">What is Bootstrap? – The History...</a></h3>
+							<div class="blog-meta">
+								<span class="f-left">2018-01-12 21:50:35</span>
+								<span class="f-right"><a href="#">Read More </a></span>
+							</div>
+						</div>
+					</div>				
+				</div>
+				<div class="col-lg-12">
+					<div class="blog-wrapper mb-40">
+						<div class="blog-img">
+							<a href="#"><img src="img/blog/2.jpg" alt="" /></a>
+						</div>
+						<div class="blog-info">
+							<h3><a href="#">From Now we are certified web...</a></h3>
+							<div class="blog-meta">
+								<span class="f-left">2018-01-15 11:20:43</span>
+								<span class="f-right"><a href="#">Read More </a></span>
+							</div>
+						</div>
+					</div>				
+				</div>
+				<div class="col-lg-12">
+					<div class="blog-wrapper mb-40">
+						<div class="blog-img">
+							<a href="#"><img src="img/blog/1.jpg" alt="" /></a>
+						</div>
+						<div class="blog-info">
+							<h3><a href="#">Answers to your Questions about...</a></h3>
+							<div class="blog-meta">
+								<span class="f-left">2018-01-15 11:20:43</span>
+								<span class="f-right"><a href="#">Read More </a></span>
+							</div>
+						</div>
+					</div>				
+				</div>
+				<div class="col-lg-12">
+					<div class="blog-wrapper mb-40">
+						<div class="blog-img">
+							<a href="#"><img src="img/blog/2.jpg" alt="" /></a>
+						</div>
+						<div class="blog-info">
+							<h3><a href="#">Share the Love for PrestaShop 1.6</a></h3>
+							<div class="blog-meta">
+								<span class="f-left">2018-01-12 21:50:35</span>
+								<span class="f-right"><a href="#">Read More </a></span>
+							</div>
+						</div>
+					</div>				
+				</div>
+			</div>	
+		</div>
+	</div>
+</div>
+
+
+<#include "/ftl/include_js.html"/>
+<#include "/ftl/include_head.html"/>
+
+<script>
+
+    $(function () {
+        $.ajax({
+            url:'/ajaxIndex',
+            type:'get',
+            data:{"itemsCustom.classId":1},
+            success:function (data) {
+                $("#home").html(data);
+//                $("#bestSeller").html(data);
+            }
+        })
+
+
+
+/*
+        var obj = {a: 'Hello', b: 'World'};    //这是一个JavaScript对象
+        var json = JSON.stringify(obj);        //{"a":"Hello","b":"World"} 这个方法将JavaScript对象转换成JSON字符串
+        console.log(typeof(json));             // string
+        console.log(JSON.parse(json));         //{a: "Hello", b: "World"}   将JSON字符串转换成JavaScript对象
+        console.log(eval('(' + json + ')'));   //{a: "Hello", b: "World"}   将JSON字符串转换成JavaScript对象
+*/
+
+    });
+
+
+
+    //商品图片上的添加购物车按钮，只添加一件商品(仅在主页用，所以暂时写在这里)
+    function cart_addOneItem(item_id) {
+        $.post("/cart/addItems",{itemId:item_id,quantity:1});
+    }
+
+    function ajax_index(classId,href) {
+        $.ajax({
+            url:'/ajaxIndex',
+            data:{"itemsCustom.classId":classId},
+            success:function (data) {
+                $(href).html(data);
+            }
+        })
+
+    }
+
+
+
+</script>
+
+</body>
+</html>

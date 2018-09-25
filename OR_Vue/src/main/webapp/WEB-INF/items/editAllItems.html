@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<!--<html class="no-js" lang="en">-->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>批量管理商品</title>
+
+    <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.png">
+
+    <!-- All css files are included here. -->
+    <!-- Bootstrap framework main css -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <!-- This core.css file contents all plugings css file. -->
+    <link rel="stylesheet" href="/css/core.css">
+    <!-- Theme shortcodes/elements style -->
+    <link rel="stylesheet" href="/css/shortcode/shortcodes.css">
+    <!-- Theme main style -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- Responsive css -->
+    <link rel="stylesheet" href="/css/responsive.css">
+    <!-- User style -->
+    <link rel="stylesheet" href="/css/custom.css">
+
+    <#include "/ftl/multiplex_header.ftl"/>
+    <@header_test/>
+
+</head>
+
+<body>
+
+<div class="space-custom"></div>
+<div class="space-custom"></div>
+
+<div>
+    <table id="edit_all_items"></table>
+</div>
+<div id="toolbar">
+    <div style="padding: 0 0 0 24px;">
+        <a class="easyui-linkbutton" iconcls="icon-add" plain="true" onclick="addItem()">添加</a>
+        <a class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="editItemTT()">修改</a>
+        <a class="easyui-linkbutton" iconcls="icon-remove" plain="true" onclick="removeItems()">删除</a>
+        <input id="select_item_by_name" type="text" name="name" style="width: 100px;height: 24px;"/>
+        <label class="easyui-linkbutton" onclick="searchByParams()">查询</label>
+        <select id="select_item_by_class" style="width: 120px;height: 26px;">
+            <option value="0">选择分类</option>
+        </select>
+    </div>
+    <div>
+    </div>
+</div>
+
+
+<#include "/ftl/include_js.html"/>
+<#include "/ftl/include_head.html"/>
+
+<script type="text/javascript">
+
+    $(function () {
+        $.ajax({
+            url:'/items/classInfo',
+            success:function (data) {
+                for(i=0;i<data.length;i++){
+                    $('#select_item_by_class').append('<option value="'+data[i].id+'">'+data[i].classify+'</option>');
+                }
+            }
+        })
+    });
+
+
+    $('#edit_all_items').datagrid({
+            url:'/items/editAllItems',
+            width:1100,
+            fitColumns:true,
+            title:'编辑商品',
+            columns:[[
+                {field:'id',checkbox:true},
+                {field:'pic',formatter:function (value,row,index) {
+                    return '<img width="100px" height="74px" src="'+'/pic/'+value+'"/>';
+                }},
+                {field:'name',title:'商品名称',sortable:true,width:100},
+                {field:'price',title:'价格',sortable:true,width:25,align:'center'},
+                {field:'detail',title:'商品详情',sortable:true,width:100},
+                {field:'classify',title:'分类',sortable:true,width:22,align:'center',formatter:function (value,row) {
+                    if (row.classes) return row.classes.classify;
+                }},
+            ]],
+            pagination:true,
+            pageSize:10,
+            pageList:[5,10,20,30],
+            pagePosition:'both',
+            rownumbers:true,
+//            singleSelect:true,
+//            multiSort:true,
+            toolbar:'#toolbar',
+            onDblClickRow:function (rowIndex,rowData) {
+                editItem(rowData.id);
+            }
+        }
+    );
+
+//    搜索商品
+    function searchByParams() {
+        $('#edit_all_items').datagrid('load', {
+            'itemsCustom.name':$('#select_item_by_name').val() ,
+            'itemsCustom.classId':$('#select_item_by_class').val()
+        });
+    }
+
+//    编辑商品
+    function editItemTT() {
+        var data = $('#edit_all_items').datagrid('getSelected');
+        if (data!=null) editItem(data.id);
+//        $('#edit_all_items').datagrid('load');
+    }
+
+//    删除商品
+    function removeItems() {
+        var rows = $('#edit_all_items').datagrid('getSelections');
+        var a = [];
+        for (i=0;i<rows.length;i++) {
+            a.push(rows[i].id);
+            console.log(typeof (rows[i].id));//number
+        }
+        $.post('/items/remove',{"a":a},function (data) {
+            $('#edit_all_items').datagrid('reload');
+            $.messager.show({
+                title:'提示',
+                msg:'成功删除'+ data +'个商品',
+            })
+        })
+    }
+
+
+
+
+</script>
+
+</body>
+</html>

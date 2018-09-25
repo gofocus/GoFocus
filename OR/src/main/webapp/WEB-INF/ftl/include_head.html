@@ -1,0 +1,105 @@
+
+
+
+<!--<link rel="stylesheet" href="/js/jquery-ui-1.12.1.custom/jquery-ui.css"  >-->
+<!--<link rel="stylesheet" href="/js/jquery-ui-1.12.1.custom/jquery-ui.theme.css"  >-->
+<!--<link rel="stylesheet" href="/js/jquery-ui-1.12.1.custom/jquery-ui.structure.css" >-->
+<!--<script type="text/javascript" src="/js/jquery-3.2.0.js"></script>-->
+<!--<script type="text/javascript" src="/js/jquery-ui-1.12.1.custom/jquery-ui.js"></script>-->
+<!--<script type="text/javascript" src="/js/jquery.validate.min.js"></script>-->
+<!--<script type="text/javascript" src="/js/messages_zh.min.js"></script>-->
+<!--<script type="text/javascript" src="/js/jquery.form.min.js"></script>-->
+
+<link rel="stylesheet" href="/js/jquery-easyui-1.5.4/themes/default/easyui.css" >
+<link rel="stylesheet" href="/js/jquery-easyui-1.5.4/themes/icon.css" >
+<link rel="stylesheet" href="/css/myStyle.css" type="text/css">
+
+<script type="text/javascript" src="/js/jquery-easyui-1.5.4/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery-easyui-1.5.4/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="/js/jquery-easyui-1.5.4/locale/easyui-lang-zh_CN.js"></script>
+
+
+<script>
+    $(function () {
+
+        $.getScript("/js/owl.carousel.min.js");
+        $.getScript("/js/jquery.nivo.slider.pack.js");
+        $.getScript("/js/plugins.js");
+        $.getScript("/js/main.js");
+
+        $('#microCart').mouseover(function () {
+            $.get('/cart/microCart',function (data) {
+                $('#microCart2').html(data);
+            })
+        })
+
+    });
+
+    function AutoResizeImage(maxWidth,maxHeight,Img){
+
+        //Img:要放图片的img元素，onload时传参可用this
+
+        //maxHeight  :img元素的高度，像素（图片框 最大高度）
+
+        //maxWidth:img元素的宽度，像素（图片框 最大宽度）
+        var image = new Image();
+        //原图片原始地址（用于获取原图片的真实宽高，当<img>标签指定了宽、高时不受影响）
+        image.src = Img.src;
+        // 当图片比图片框小时不做任何改变
+        if (image.width < maxWidth && image.height < maxHeight) {
+            Img.width = image.width;
+            Img.height = image.height;
+        }
+        else //原图片宽高比例 大于 图片框宽高比例,则以框的宽为标准缩放，反之以框的高为标准缩放
+        {
+            if (maxWidth / maxHeight <= image.width / image.height) //原图片宽高比例 大于 图片框宽高比例
+            {
+                Img.width = maxWidth;   //以框的宽度为标准
+                Img.height = maxWidth * (image.height / image.width);
+            }
+            else {   //原图片宽高比例 小于 图片框宽高比例
+                Img.width = maxHeight * (image.width / image.height);
+                Img.height = maxHeight;   //以框的高度为标准
+            }
+        }
+
+        /*        var img = new Image();
+        img.src = objImg.src;
+        var hRatio;
+        var wRatio;
+        var Ratio = 1;
+        var w = img.width;
+        var h = img.height;
+        wRatio = maxWidth / w;
+        hRatio = maxHeight / h;
+        if (maxWidth ==0 && maxHeight==0){
+            Ratio = 1;
+        }else if (maxWidth==0){//
+            if (hRatio<1) Ratio = hRatio;
+        }else if (maxHeight==0){
+            if (wRatio<1) Ratio = wRatio;
+        }else if (wRatio<1 || hRatio<1){
+            Ratio = (wRatio<=hRatio?wRatio:hRatio);
+        }
+        if (Ratio<1){
+            w = w * Ratio;
+            h = h * Ratio;
+        }
+        objImg.height = h;
+        objImg.width = w;*/
+    }
+
+    function remove_cart_item(obj, itemId) {
+        $.post('/cart/remove', {itemId: itemId}, function () {
+            console.log("1");
+            obj.remove();
+
+//          window.location.reload();
+        });
+
+    }
+
+
+
+</script>
+

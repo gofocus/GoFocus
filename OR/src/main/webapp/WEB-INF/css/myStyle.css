@@ -1,0 +1,50 @@
+.reg {
+    padding:15px 0 0 15px;
+}
+
+.reg p{
+    margin:10px 0;
+    padding:0;
+}
+
+.reg p label {
+    font-size: 13px;
+    color: #666;
+}
+
+.reg .star{
+    color:red;
+    font-size: 15px;
+}
+.reg .text {
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background: #fff;
+    width: 200px;
+    height: 25px;
+    color: #666;
+    text-indent: 5px;
+    font-size: 13px;
+}
+
+.easyui-validatebox {
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background: #fff;
+    width: 200px;
+    height: 25px;
+    color: #666;
+    text-indent: 5px;
+    font-size: 13px;
+}
+
+.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus, .ui-button:hover, .ui-button:focus{
+
+}
+.ui-widget .ui-widget{
+    font-size: 13px;
+}
+
+.btn {
+    text-align:center;
+}

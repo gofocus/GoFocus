@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" >
+    <title>编辑商品</title>
+
+    <#include "/ftl/include_head.html"/>
+
+    <script type="text/javascript">
+
+        $(function () {
+            $('button').click(function () {
+                $("#reg").dialog('open');
+            });
+            var thisForm = this;
+            $("#reg").dialog({
+                autoOpen: true,
+                title: "编辑商品",
+                modal: true,
+                resizable: false,
+                height: 640,
+                width: 520,
+                buttons: {
+                    "提交": function () {
+                        $(thisForm).submit();
+                    },
+                    "添加商品":function(){
+                        window.location.href= "/items/addItems";
+                    },
+                    "返回":function () {
+                        window.location.href="/";
+                    }
+                }
+            }).buttonset().validate({
+                submitHandler: function (form) {
+                    $(form).ajaxSubmit({
+                        url:'/items/editItem',
+                        type:'POST',
+                        dataType:null,
+                        success:function () {
+                            alert("修改成功");
+                        }
+                    });
+                    return false;
+                },
+                rules: {
+                    name: {
+                        required: true,
+                        minlength: 2,
+                    },
+                    price: {
+                        required: true,
+                        minlength: 1,
+                        digits: true,
+                    }
+                },
+                messages: {
+                },
+            })
+
+
+        })
+
+    </script>
+
+</head>
+<body>
+
+<!--<form class="one" action="/items/editItem" enctype="multipart/form-data" method="post">-->
+<div >
+    <form id="reg" >
+        <img src="/pic/${itemsCustom.pic}"/><br>
+        <input type="hidden" name="id" class="text" value="${itemsCustom.id}"/><br>
+        <p>
+            <label for="name">名称：</label>
+            <input id="name" type="text" name="name" class="text" value="${itemsCustom.name}"/>
+            <span class="star">*</span>
+        </p>
+        <p>
+            <label for="price">价格：</label>
+            <input id="price" type="text" name="price" class="text" value="${itemsCustom.price}"/>
+            <span class="star">*</span>
+        </p>
+        <p>
+            <label for="detail">详细：</label>
+            <input id="detail" type="text" name="detail" class="text" value="${itemsCustom.detail}"/>
+        </p>
+        <p>
+            <label for="pic">图片：</label>
+            <input id="pic" type="file" name="piccc" class="pic" />
+        </p>
+    </form>
+</div>
+</body>
+</html>

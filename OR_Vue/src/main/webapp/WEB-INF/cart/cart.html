@@ -1,0 +1,262 @@
+﻿<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>购物车</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.png">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/core.css">
+    <link rel="stylesheet" href="/css/shortcode/shortcodes.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+    <link rel="stylesheet" href="/css/custom.css">
+
+<#include "/ftl/multiplex_header.ftl" />
+
+</head>
+
+<body>
+<@header_test/>
+
+<div class="space-custom"></div>
+<!-- breadcrumb start -->
+<div class="breadcrumb-area">
+    <div class="container">
+        <ol class="breadcrumb">
+            <li><a href="/"><i class="fa fa-home"></i></a></li>
+            <li class="active">购物车</li>
+        </ol>
+    </div>
+</div>
+<!-- breadcrumb end -->
+<!-- cart-main-area start -->
+<div class="cart-main-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <form id="cart_form" action="#">
+                    <div class="table-content table-responsive">
+                        <table>
+                        <#if buyerCart??>
+                            <#if cartSize?? && cartSize == 0>
+                                <div style="text-align:center;margin-bottom: 50px;font-size: 19px;">
+                                    <a href="/"><span>你的购物空空如也，去购物吧</span></a>
+                                    <br/>
+                                </div>
+                            <#else>
+                                <thead>
+                                <tr>
+                                    <th class="product-thumbnail">缩略图</th>
+                                    <th class="product-name">商品</th>
+                                    <th class="product-price">单价</th>
+                                    <th class="product-quantity">数量</th>
+                                    <th class="product-subtotal">总价</th>
+                                    <th class="product-remove">移除</th>
+                                </tr>
+                                </thead>
+
+                                <tbody>
+                                    <#list buyerCart as item>
+                                    <tr style="text-align:center">
+                                        <td class="product-thumbnail">
+                                            <a href="/items/product-details/${item.itemsCustom.id}"><img src="/pic/${item.itemsCustom.pic}" alt=""/></a>
+                                        </td>
+                                        <td class="product-name">
+                                            <a href="/items/product-details/${item.itemsCustom.id}">${item.itemsCustom.name}</a>
+                                        </td>
+                                        <td class="product-price">
+                                            <span class="price">$${item.itemsCustom.price}</span>
+                                            <input class="amount hidden" value="${item.itemsCustom.price}">
+                                        </td>
+                                        <td class="product-quantity">
+                                            <input class="easyui-numberspinner" value="${item.quantity}" increment="1" min="1">
+                                            <input type="hidden" class="cart_item_id" value="${item.itemsCustom.id}">
+                                        </td>
+                                        <td class="product-subtotal">$${item.subTotal}</td>
+                                        <td class="product-remove">
+                                            <i class="fa fa-times" onclick="remove_cart_item($(this).parent().parent(),${item.itemsCustom.id});get_order_total()"></i>
+                                            <!--<i class="fa fa-times" onclick="remove_cart_item(${item.itemsCustom.id},$(this).parent().parent());"></i>-->
+                                        </td>
+                                    </tr>
+                                    </#list>
+                                </tbody>
+                            </#if>
+                        <#else>
+                            <div style="text-align:center;margin-bottom: 50px;font-size: 19px;">
+                                <a href="/"><span>你的购物空空如也，去购物吧</span></a>
+                                <br/>
+                            </div>
+                        </#if>
+                        </table>
+                    </div>
+
+                    <!--<div>
+                        <table class="easyui-datagrid" data-options="url:'/carts',fitColumns:true">
+                            <thead>
+                                <tr>
+                                    <th data-options="field:'itemsCustom.pic'"></th>
+                                    <th data-options="field:'itemsCustom.name'">商品</th>
+                                    <th data-options="field:'itemsCustom.price'">单价</th>
+                                    <th data-options="field:'quantity'">数量</th>
+                                    <th data-options="field:'subTotal'">总价</th>
+                                    &lt;!&ndash;<th data-options="field:''">移除</th>&ndash;&gt;
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>-->
+
+                    <div class="row">
+                        <div class="col-md-8 col-sm-7 col-xs-12">
+                            <!--<div class="buttons-cart">
+                                <input type="submit" value="Update Cart" />
+                                <a href="#">Continue Shopping</a>
+                            </div>
+                            <div class="coupon">
+                                <h3>Coupon</h3>
+                                <p>Enter your coupon code if you have one.</p>
+                                <input type="text" placeholder="Coupon code" />
+                                <input type="submit" value="Apply Coupon" />
+                            </div>-->
+                        </div>
+                        <div class="col-md-4 col-sm-5 col-xs-12">
+                            <div class="cart_totals">
+                                <!--<h2>购物车总计</h2>-->
+
+                            <#if cartSize ?? && cartSize!= 0>
+                                <table>
+                                    <tbody>
+                                    <!--<tr class="cart-subtotal">
+                                        <th>Subtotal</th>
+                                        <td><span class="amount">$215.00</span></td>
+                                    </tr>-->
+                                    <tr class="order-total" id="order-total">
+                                        <th>总价</th>
+                                        <td>
+                                            <strong><span class="amount">${orderTotal}</span></strong>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </#if>
+                                <div class="wc-proceed-to-checkout">
+                                    <a href="#">去结算</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- cart-main-area end -->
+
+
+<!-- service-area start -->
+<!--	<div class="service-area pt-70 pb-40 gray-bg">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-3 col-sm-6">
+					<div class="single-service mb-30">
+						<div class="service-icon">
+							<i class="pe-7s-world"></i>
+						</div>
+						<div class="service-title">
+							<h3>FREE SHIPPING</h3>
+							<p>Free shipping on all UK orders</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3 col-sm-6">
+					<div class="single-service mb-30">
+						<div class="service-icon">
+							<i class="pe-7s-refresh"></i>
+						</div>
+						<div class="service-title">
+							<h3>FREE EXCHANGE</h3>
+							<p>30 days return on all items</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3 col-sm-6">
+					<div class="single-service mb-30 sm-mrg">
+						<div class="service-icon">
+							<i class="pe-7s-headphones"></i>
+						</div>
+						<div class="service-title">
+							<h3>PREMIUM SUPPORT</h3>
+							<p>We support online 24 hours a day</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3 col-sm-6">
+					<div class="single-service mb-30 xs-mrg sm-mrg">
+						<div class="service-icon">
+							<i class="pe-7s-gift"></i>
+						</div>
+						<div class="service-title">
+							<h3>BLACK FRIDAY</h3>
+							<p>Shocking discount on every friday</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>-->
+<!-- service-area end -->
+
+
+<#include "/ftl/include_js.html"/>
+<#include "/ftl/include_head.html"/>
+<script type="text/javascript">
+    $(function () {
+
+        //按钮，可以修改购物车中该商品的数量，同时动态修改其单价、总价，且不刷新页面
+        $(".easyui-numberspinner").spinner({
+            onChange: function () {
+                var item_id = $(this).parent().find('.cart_item_id').val();
+                var AbQuantity = $(this).spinner('getValue');
+
+                var price = $(this).parent().parent().find('.price');
+                var subtotal = $(this).parent().parent().find('.product-subtotal');
+//                $(this).parent().parent().remove();
+
+                $.post('/items/getItemInfo', {itemId: item_id}, function (data) {
+                    var item_price = data.price;//这里返回的data是Json对象，直接读取属性，不需要解析。。。
+                    subtotal.text('$' + item_price * AbQuantity);
+                    price.text('$' + item_price);
+
+                    alter_quantity(item_id, AbQuantity);//修改后台购物车对象中商品的数量，并且保存到cookie中
+
+                })
+
+            }
+        });
+
+        //修改后台购物车对象中的商品数量
+        function alter_quantity(item_id, AbQuantity) {
+            $.post("/cart/addItems",
+                    {itemId: item_id, AbQuantity: AbQuantity}, function () {
+                        get_order_total();//在ajax内调用，保证ajax方法的执行顺序
+                    });
+        }
+
+        function get_order_total() {
+            $.get('/cart/buyerCart', function (result) {
+                var orderTotal = $("#order-total").find('.amount');
+                orderTotal.text(result.order_total);
+            });
+        }
+
+    })
+
+
+</script>
+
+</body>
+</html>
