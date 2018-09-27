@@ -1,4 +1,4 @@
-package poi;
+package ExcelUtil;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -15,7 +15,7 @@ import java.util.HashSet;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 
-public class Poi {
+public class ExcelUtil {
 
     private static final String EXCEL_XLS = "xls";
     private static final String EXCEL_XLSX = "xlsx";
@@ -87,7 +87,7 @@ public class Poi {
             for (Row row : sheet) {
                 try {
                     // 跳过第一和第二行的目录
-                    if (count < 2) {
+                    if (count < 1) {
                         count++;
                         continue;
                     }
