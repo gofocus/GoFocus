@@ -4,6 +4,11 @@
     <file url="file://$PROJECT_DIR$" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/OR" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/OR_Vue" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/dubbo-demo-server-master" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/dubbo-demo-server-master/dubbo-demo-backend" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/dubbo-demo-server-master/dubbo-demo-common" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/dubbo-demo-server-master/dubbo-demo-system-api" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/dubbo-demo-server-master/dubbo-demo-system-provider" charset="UTF-8" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>

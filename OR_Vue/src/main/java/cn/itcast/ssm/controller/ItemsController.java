@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
@@ -45,9 +46,8 @@ public class ItemsController {
     }
 
 
-
     //商品分类信息
-    @RequestMapping("/classInfo")
+    @RequestMapping(value = "/classInfo", method = RequestMethod.GET)
     @ResponseBody
     public List<Classes> classInfo(Integer id) {
         return classesService.selectById(id);
@@ -55,7 +55,7 @@ public class ItemsController {
 
 
     //批量修改商品
-    @RequestMapping(value = "/editAllItems",method = RequestMethod.GET)
+    @RequestMapping(value = "/editAllItems", method = RequestMethod.GET)
     @RequiresPermissions("item:update")
     public String editItemsAll(Model model, ItemsQueryVo itemsQueryVo) throws Exception {
 
@@ -65,7 +65,7 @@ public class ItemsController {
     }
 
 
-    @RequestMapping(value = "/editAllItems",method = RequestMethod.POST)
+    @RequestMapping(value = "/editAllItems", method = RequestMethod.POST)
     @RequiresPermissions("item:update")
     @ResponseBody
     public EUDataGridResult editAllItems(Integer page, Integer rows, ItemsQueryVo itemsQueryVo) throws Exception {
@@ -101,8 +101,7 @@ public class ItemsController {
                 File newFile = new File(pic_path + newFileName);
                 piccc.transferTo(newFile);
                 itemsCustom.setPic(newFileName);
-            }
-            else itemsCustom.setPic("123.jpg");
+            } else itemsCustom.setPic("123.jpg");
         }
 
         itemsCustom.setCreatetime(new Date());
@@ -123,18 +122,25 @@ public class ItemsController {
 
 
     //获取单个商品的数据，参数为商品的id
-    @RequestMapping(value = "/getItemInfo",method = RequestMethod.POST)
+    @RequestMapping(value = "/getItemInfo", method = RequestMethod.POST)
     @ResponseBody
-    public ItemsCustom getItemInfo(int itemId){
+    public Object getItemInfo(@RequestBody int itemId) {
         ItemsCustom itemsCustom = itemsService.findItemsById(itemId);
         return itemsCustom;
     }
 
+/*    @RequestMapping(value = "/getItemInfo", method = RequestMethod.POST)
+    @ResponseBody
+    public Object getItemInfo() {
+//        ItemsCustom itemsCustom = itemsService.findItemsById(itemId);
+        return itemsService.findItemsById(39);
+    }*/
+
     //GET商品数据，参数为商品的id
-    @RequestMapping(value = "/editItem/{id}",method = RequestMethod.GET)
+    @RequestMapping(value = "/editItem/{id}", method = RequestMethod.GET)
     @RequiresPermissions("item:update")
     @ResponseBody
-    public ItemsCustom editItem(@PathVariable int id, Model model){
+    public ItemsCustom editItem(@PathVariable int id, Model model) {
         ItemsCustom itemsCustom = itemsService.findItemsById(id);
         model.addAttribute("itemsCustom", itemsCustom);
 //        return "items/editItem";
@@ -147,7 +153,7 @@ public class ItemsController {
     @ResponseBody
     public ItemsCustom editItem(MultipartFile piccc, ItemsCustom itemsCustom) throws IOException {
         int id = itemsCustom.getId();
-        if (piccc!=null) {
+        if (piccc != null) {
             String originnalFileName = piccc.getOriginalFilename();
             if (originnalFileName != null && originnalFileName.length() > 0) {
                 String pic_path = "D:\\java\\svn\\ssm_new\\springmvc\\src\\main\\webapp\\WEB-INF\\img\\product\\";
@@ -157,14 +163,14 @@ public class ItemsController {
                 itemsCustom.setPic(newFileName);
             }
         }
-        itemsService.updateItemSelective(id, itemsCustom );
+        itemsService.updateItemSelective(id, itemsCustom);
         return itemsCustom;
     }
 
 
     //商品详情页面
     @RequestMapping("/product-details/{id}")
-    public String product_details(@PathVariable int id, Model model){
+    public String product_details(@PathVariable int id, Model model) {
         ItemsCustom itemsCustom = itemsService.findItemsById(id);
         model.addAttribute("itemsCustom", itemsCustom);
         return "/items/product-details";
@@ -189,7 +195,7 @@ public class ItemsController {
 //    }
 
     @RequestMapping("/editItemsSubmit")
-    public String editItemsSubmit(Integer id, ItemsCustom itemsCustom){
+    public String editItemsSubmit(Integer id, ItemsCustom itemsCustom) {
         itemsService.updateItems(id, itemsCustom);
         return "success";
     }
@@ -218,19 +224,18 @@ public class ItemsController {
     @RequestMapping("/editItemsAllSubmit")
     public String editItemsAllSubmit(ItemsQueryVo itemsQueryVo) {
         List<ItemsCustom> list = itemsQueryVo.getItemsList();
-        for (ItemsCustom items:list
-                ){
-        itemsService.updateItems(items.getId(),items);
+        for (ItemsCustom items : list
+        ) {
+            itemsService.updateItems(items.getId(), items);
         }
         return "success";
     }
 
     @RequestMapping("/updateItemSelective")
-    public String updateItemSelective(int id){
+    public String updateItemSelective(int id) {
         ItemsCustom itemsCustom = itemsService.findItemsById(id);
         return "index";
     }
-
 
 
 }

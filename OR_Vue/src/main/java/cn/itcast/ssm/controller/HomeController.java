@@ -11,7 +11,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * 2016-11-11 16:39
@@ -24,7 +26,8 @@ public class HomeController {
     private ItemsService itemsService;
 
     @RequestMapping(value = "/",method = RequestMethod.GET)
-    public String home_get(Model model, HttpSession httpSession, ItemsQueryVo itemsQueryVo) throws Exception {
+    @ResponseBody
+    public List<ItemsCustom> home_get(Model model, HttpSession httpSession, ItemsQueryVo itemsQueryVo) throws Exception {
 
         List<ItemsCustom> itemList = itemsService.findItemsList(itemsQueryVo);
         model.addAttribute("itemList", itemList);
@@ -34,7 +37,8 @@ public class HomeController {
         httpSession.setAttribute("activeUser",activeUser);
         model.addAttribute("activeUser", activeUser);
 
-        return "index";
+        return itemList;
+
     }
 
     @RequestMapping(value = "/ajaxIndex")
@@ -42,6 +46,21 @@ public class HomeController {
         List<ItemsCustom> itemsList = itemsService.findItemsByParam(itemsQueryVo);
         model.addAttribute("itemList", itemsList);
         return "ajaxIndex";
+    }
+
+    @RequestMapping(value = "/carouselList")
+    @ResponseBody
+    public List carouselList() {
+//        String[] carouselList = new String[]{};
+        List<String> carouselList = new ArrayList<>();
+        String baseUrl = "https://picsum.photos/1263/920/?image=";
+        Random random = new Random();
+        for (int i = 0; i < 5; i++) {
+            String url = baseUrl + random.nextInt(1000);
+            carouselList.add(url);
+        }
+
+        return carouselList;
     }
 
 

@@ -79,10 +79,9 @@ public class ExcelUtil {
             // 为跳过第一行目录设置count
             int count = 0;
 
+
+
             HashSet<String> hashSet = new HashSet();
-
-
-
 
             for (Row row : sheet) {
                 try {

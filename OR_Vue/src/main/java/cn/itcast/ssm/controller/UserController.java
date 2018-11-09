@@ -6,6 +6,7 @@ import cn.itcast.ssm.service.ItemsService;
 import cn.itcast.ssm.service.SysService;
 import cn.itcast.ssm.utils.Constants;
 import cn.itcast.ssm.utils.MD5_test;
+import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -17,10 +18,7 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -29,11 +27,10 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.lang.reflect.Array;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 
 /**
@@ -64,6 +61,20 @@ public class UserController{
     public SysUser registerPost(SysUser SysUser){
         sysService.addUser(SysUser);
         return SysUser;
+    }
+
+    @RequestMapping(value = "/loginTest", method = RequestMethod.POST)
+    @ResponseBody
+    public Map loginTest(HttpServletRequest request,@RequestBody LoginUser loginUser) {
+
+        JSONObject jsonObject = (JSONObject) JSONObject.toJSON(loginUser);
+//        String s = (String) jsonObject.get("email");
+
+        HashMap<String, LoginUser> map = new HashMap();
+        map.put("user", loginUser);
+
+        return map;
+
     }
 
     //使用shiro认证用户
