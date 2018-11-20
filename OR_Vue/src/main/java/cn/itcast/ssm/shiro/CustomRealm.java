@@ -1,9 +1,12 @@
 package cn.itcast.ssm.shiro;
 
+import cn.itcast.ssm.controller.UserController;
 import cn.itcast.ssm.po.ActiveUser;
 import cn.itcast.ssm.po.SysPermission;
 import cn.itcast.ssm.po.SysUser;
 import cn.itcast.ssm.service.SysService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -17,12 +20,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by gofocus on 2017/3/27.
  */
 public class CustomRealm extends AuthorizingRealm {
+    private static final Logger logger = LogManager.getLogger(CustomRealm.class.getName());
 
     @Autowired
     private SysService sysService;
@@ -40,21 +43,22 @@ public class CustomRealm extends AuthorizingRealm {
         String usercode = (String) authenticationToken.getPrincipal();
         SysUser sysUser = sysService.findUserByUsercode(usercode);
 
-        if (sysUser == null){
-            return null;
+        if (sysUser == null) return null;
+        else {
+
+            String password = sysUser.getPassword();
+            String salt = sysUser.getSalt();
+
+            ActiveUser activeUser = new ActiveUser();
+            activeUser.setUserid(sysUser.getId());
+            activeUser.setUsercode(sysUser.getUsercode());
+            activeUser.setUsername(sysUser.getUsername());
+
+            logger.debug(activeUser.getUsercode());
+            logger.error("122121");
+
+            return new SimpleAuthenticationInfo(activeUser, password, ByteSource.Util.bytes(salt), this.getName());
         }
-
-        String password = sysUser.getPassword();
-        String salt = sysUser.getSalt();
-
-        ActiveUser activeUser = new ActiveUser();
-        activeUser.setUserid(sysUser.getId());
-        activeUser.setUsercode(sysUser.getUsercode());
-        activeUser.setUsername(sysUser.getUsername());
-
-        return new SimpleAuthenticationInfo(
-                activeUser, password, ByteSource.Util.bytes(salt),this.getName());
-
     }
 
     //授权
@@ -69,8 +73,8 @@ public class CustomRealm extends AuthorizingRealm {
 
         List<String> permissionList = new ArrayList<>();
 
-        if (permissionListByUserId!=null){
-            for (SysPermission permission:permissionListByUserId){
+        if (permissionListByUserId != null) {
+            for (SysPermission permission : permissionListByUserId) {
                 permissionList.add(permission.getPercode());
             }
         }

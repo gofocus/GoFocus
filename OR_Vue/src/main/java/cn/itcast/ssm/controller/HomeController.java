@@ -27,6 +27,7 @@ public class HomeController {
 
     @RequestMapping(value = "/",method = RequestMethod.GET)
     @ResponseBody
+//    public String home_get(Model model, HttpSession httpSession, ItemsQueryVo itemsQueryVo) throws Exception {
     public List<ItemsCustom> home_get(Model model, HttpSession httpSession, ItemsQueryVo itemsQueryVo) throws Exception {
 
         List<ItemsCustom> itemList = itemsService.findItemsList(itemsQueryVo);
@@ -38,6 +39,7 @@ public class HomeController {
         model.addAttribute("activeUser", activeUser);
 
         return itemList;
+//        return "index";
 
     }
 

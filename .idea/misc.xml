@@ -2,16 +2,32 @@
 <project version="4">
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="FrameworkDetectionExcludesConfiguration">
+    <file type="Osmorc" url="file://$PROJECT_DIR$/shiro-root-1.3.2/core" />
+    <file type="Osmorc" url="file://$PROJECT_DIR$/shiro-root-1.3.2/support/aspectj" />
+    <file type="Osmorc" url="file://$PROJECT_DIR$/shiro-root-1.3.2/support/cas" />
+    <file type="Osmorc" url="file://$PROJECT_DIR$/shiro-root-1.3.2/support/ehcache" />
+    <file type="Osmorc" url="file://$PROJECT_DIR$/shiro-root-1.3.2/support/guice" />
+    <file type="Osmorc" url="file://$PROJECT_DIR$/shiro-root-1.3.2/support/hazelcast" />
+    <file type="Osmorc" url="file://$PROJECT_DIR$/shiro-root-1.3.2/support/quartz" />
+    <file type="Osmorc" url="file://$PROJECT_DIR$/shiro-root-1.3.2/support/spring" />
+    <file type="Osmorc" url="file://$PROJECT_DIR$/shiro-root-1.3.2/tools/hasher" />
+    <file type="Osmorc" url="file://$PROJECT_DIR$/shiro-root-1.3.2/web" />
     <file type="web" url="file://$PROJECT_DIR$" />
   </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
-        <option value="$PROJECT_DIR$/OR_Vue/pom.xml" />
         <option value="$PROJECT_DIR$/Task/pom.xml" />
         <option value="$PROJECT_DIR$/OR/pom.xml" />
         <option value="$PROJECT_DIR$/dubbo-demo-server-master/pom.xml" />
+        <option value="$PROJECT_DIR$/OR_Vue/pom.xml" />
+        <option value="$PROJECT_DIR$/shiro-root-1.3.2/pom.xml" />
       </list>
+    </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/shiro-root-1.3.2/pom.xml" />
+      </set>
     </option>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="false" project-jdk-name="1.8" project-jdk-type="JavaSDK">

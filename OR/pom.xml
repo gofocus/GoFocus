@@ -94,11 +94,11 @@
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/net.mingsoft/shiro-freemarker-tags -->
-        <dependency>
+<!--        <dependency>
             <groupId>net.mingsoft</groupId>
             <artifactId>shiro-freemarker-tags</artifactId>
             <version>0.1</version>
-        </dependency>
+        </dependency>-->
         <!-- https://mvnrepository.com/artifact/org.apache.shiro/shiro-quartz -->
         <dependency>
             <groupId>org.apache.shiro</groupId>

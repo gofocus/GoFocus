@@ -6,11 +6,13 @@ import cn.itcast.ssm.service.ItemsService;
 import cn.itcast.ssm.service.SysService;
 import cn.itcast.ssm.utils.Constants;
 import cn.itcast.ssm.utils.MD5_test;
-import com.alibaba.fastjson.JSONObject;
+//import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
@@ -40,7 +42,8 @@ import java.util.*;
 
 @Controller
 @RequestMapping("/user")
-public class UserController{
+public class UserController {
+    private static final Logger logger = LogManager.getLogger(UserController.class.getName());
 
     @Autowired
     private SysService sysService;
@@ -58,16 +61,16 @@ public class UserController{
     //提交注册信息，写入数据库
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     @ResponseBody
-    public SysUser registerPost(SysUser SysUser){
+    public SysUser registerPost(SysUser SysUser) {
         sysService.addUser(SysUser);
         return SysUser;
     }
 
     @RequestMapping(value = "/loginTest", method = RequestMethod.POST)
     @ResponseBody
-    public Map loginTest(HttpServletRequest request,@RequestBody LoginUser loginUser) {
+    public Map loginTest(HttpServletRequest request, @RequestBody LoginUser loginUser) {
 
-        JSONObject jsonObject = (JSONObject) JSONObject.toJSON(loginUser);
+//        JSONObject jsonObject = (JSONObject) JSONObject.toJSON(loginUser);
 //        String s = (String) jsonObject.get("email");
 
         HashMap<String, LoginUser> map = new HashMap();
@@ -78,41 +81,59 @@ public class UserController{
     }
 
     //使用shiro认证用户
-    @RequestMapping(value = "/login")
-    public String login(HttpServletRequest request) throws Exception {
+//    @RequestMapping(value = "/login")
+    @RequestMapping(value = "/login",method = RequestMethod.POST)
+    @ResponseBody
+    public ActiveUser login(HttpServletRequest request) throws Exception {
+
 
         //如果登陆失败从request中获取认证异常信息，shiroLoginFailure就是shiro异常类的全限定名
         String exceptionClassName = (String) request.getAttribute("shiroLoginFailure");
+
+        //这里区分认证失败，还是认证成功后二次登录。
+        //因为二次登录会跳过认证，正常执行controller。
+        Subject subject = SecurityUtils.getSubject();
+        ActiveUser activeUser = (ActiveUser)subject.getPrincipal();
+        boolean isAuthenticated = subject.isAuthenticated();
+        logger.debug("activeUser:"+activeUser);
+
+
+        if (isAuthenticated) return activeUser;
+        else return null;
+
         //根据shiro返回的异常类路径判断，抛出指定异常信息
-        if (exceptionClassName != null) {
+/*        if (exceptionClassName != null) {
             if (UnknownAccountException.class.getName().equals(exceptionClassName)) {
                 //最终会抛给异常处理器
+//                return ;
                 throw new CustomException("账号不存在");
             } else if (IncorrectCredentialsException.class.getName().equals(
                     exceptionClassName)) {
+//                return ;
                 throw new CustomException("用户名/密码错误");
-                /*} else if("randomCodeError".equals(exceptionClassName)){
-                    throw new CustomException("验证码错误 ");*/
+                } else if("randomCodeError".equals(exceptionClassName)){
+                    throw new CustomException("验证码错误 ");
             } else {
+//                return ;
                 throw new Exception();//最终在异常处理器生成未知错误
             }
-        }
+        }*/
 
-        //此方法不处理登陆成功（认证成功），shiro认证成功会自动跳转到上一个请求路径
+        //!!!此方法不处理登陆成功（认证成功），shiro认证成功会自动跳转到上一个请求路径
 
         //登陆失败还到login页面
-        return "sysUser/login";
+//        return "sysUser/login";
     }
 
     //get修改密码页面
     @RequestMapping(value = "/modify_password", method = RequestMethod.GET)
-    public String modify_password(){
+    public String modify_password() {
         return "sysUser/modify_password";
     }
 
     //POST修改密码，通过表格传入新密码，转换为Md5后写入数据库
     @RequestMapping(value = "/modify_password", method = RequestMethod.POST)
-    public String modify_password_post(String new_password){
+    public String modify_password_post(String new_password) {
 
         //将表格中的密码转换为Md5形式
         String md5_password = MD5_test.getMd5(new_password);
@@ -142,7 +163,7 @@ public class UserController{
     //ajax验证修改密码时输入的原密码的正确性
     @RequestMapping("/validate_password")
     @ResponseBody
-    public Boolean validate_password(String opwd){
+    public Boolean validate_password(String opwd) {
 
         //拿到用户输入的密码，并转换为md5
         String md5_password = MD5_test.getMd5(opwd);
@@ -164,13 +185,13 @@ public class UserController{
 
     //用户详细信息
     @RequestMapping("/user_detail/{user_id}")
-    public String user_detail(@PathVariable int user_id, Model model){
+    public String user_detail(@PathVariable int user_id, Model model) {
 
-        Userdetail userdetailByUser_id= sysService.findUserdetailByUser_id(user_id);
+        Userdetail userdetailByUser_id = sysService.findUserdetailByUser_id(user_id);
 
-        if (userdetailByUser_id.getSex().equals("1")){
+        if (userdetailByUser_id.getSex().equals("1")) {
             userdetailByUser_id.setSex("男");
-        }else userdetailByUser_id.setSex("女");
+        } else userdetailByUser_id.setSex("女");
 
         model.addAttribute("userdetail", userdetailByUser_id);
 

@@ -11,7 +11,9 @@ import java.lang.reflect.InvocationTargetException;
 /**
  * Created by gofocus on 2017/3/28 13:24.
  */
+//全局异常处理器
 public class CustomExceptionHandler implements HandlerExceptionResolver {
+
     @Override
     public ModelAndView resolveException(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e) {
     //handler就是处理器适配器要执行Handler对象（只有method）
