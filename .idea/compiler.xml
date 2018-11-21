@@ -6,7 +6,6 @@
     <option name="delegateToJavac" value="true" />
   </component>
   <component name="CompilerConfiguration">
-    <option name="DEFAULT_COMPILER" value="ajc" />
     <annotationProcessing>
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -21,32 +20,5 @@
         <module name="Task" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="GoFocus" target="1.7" />
-      <module name="samples-aspectj" target="1.5" />
-      <module name="samples-guice" target="1.6" />
-      <module name="samples-quickstart" target="1.6" />
-      <module name="samples-quickstart-guice" target="1.6" />
-      <module name="samples-sprhib" target="1.6" />
-      <module name="samples-spring" target="1.6" />
-      <module name="samples-spring-client" target="1.6" />
-      <module name="samples-web" target="1.6" />
-      <module name="shiro-all" target="1.6" />
-      <module name="shiro-aspectj" target="1.5" />
-      <module name="shiro-cas" target="1.6" />
-      <module name="shiro-core" target="1.6" />
-      <module name="shiro-ehcache" target="1.6" />
-      <module name="shiro-features" target="1.6" />
-      <module name="shiro-guice" target="1.6" />
-      <module name="shiro-hazelcast" target="1.6" />
-      <module name="shiro-quartz" target="1.6" />
-      <module name="shiro-root" target="1.6" />
-      <module name="shiro-samples" target="1.6" />
-      <module name="shiro-spring" target="1.6" />
-      <module name="shiro-support" target="1.6" />
-      <module name="shiro-tools" target="1.6" />
-      <module name="shiro-tools-hasher" target="1.6" />
-      <module name="shiro-web" target="1.6" />
-    </bytecodeTargetLevel>
   </component>
 </project>

@@ -22,7 +22,7 @@
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="securityManager"/>
         <property name="loginUrl" value="/user/login"/>
-        <property name="unauthorizedUrl" value="/sysUser/refuse.html"/>
+        <!--<property name="unauthorizedUrl" value="/sysUser/refuse.html"/>-->
         <property name="filterChainDefinitions">
             <value>
                 /**/*.png = anon

@@ -15,7 +15,6 @@ public class MD5_test {
 		//第四个参数：散列的次数
 		SimpleHash simpleHash = new SimpleHash("md5", source, salt, hashIterations);
 		return simpleHash.toString();
-//			3ad627a4bc76e97f41544af99b61cf16
 	}
 
 }
