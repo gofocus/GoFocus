@@ -16,9 +16,11 @@ public interface SysService {
 
     SysUser findUserById(int id);
 
-    SysUser findUserByUsercode(String usercode);
+    SysUser findUserByUserCode(String userCode);
 
-    List<SysPermission> findPermissionListByUserId(int userid);
+    List<SysPermission> findPermissionListByUserId(int userId);
+
+    List<SysPermission> findMenuListByUserId(int userId);
 
     void updateByPrimaryKeySelective(SysUser sysUser);
 

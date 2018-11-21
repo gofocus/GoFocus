@@ -5,25 +5,21 @@
 
     <!-- 根据用户id查询url -->
     <select id="findPermissionListByUserId" parameterType="int" resultType="cn.itcast.ssm.po.SysPermission">
-        SELECT
-        *
-        FROM
-        sys_permission
+        SELECT * FROM sys_permission
         WHERE TYPE = 'permission'
         AND id IN
-        (SELECT
-        sys_permission_id
-        FROM
-        sys_role_permission
-        WHERE sys_role_id IN
-        (SELECT
-        sys_role_id
-        FROM
-        sys_user_role
-        WHERE sys_user_id = #{id}))
+        (SELECT sys_permission_id FROM sys_role_permission WHERE sys_role_id IN
+        (SELECT sys_role_id FROM sys_user_role WHERE sys_user_id = #{id}))
     </select>
 
-
+    <!-- 根据用户id查询菜单 -->
+    <select id="findMenuListByUserId" parameterType="int" resultType="cn.itcast.ssm.po.SysPermission">
+        SELECT * FROM sys_permission
+        WHERE TYPE = 'menu'
+        AND id IN
+        (SELECT sys_permission_id FROM sys_role_permission WHERE sys_role_id IN
+        (SELECT sys_role_id FROM sys_user_role WHERE sys_user_id = #{id}))
+    </select>
 
 
 </mapper>

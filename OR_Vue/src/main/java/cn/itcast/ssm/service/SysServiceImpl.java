@@ -46,10 +46,10 @@ public class SysServiceImpl implements SysService {
     }
 
     @Override
-    public SysUser findUserByUsercode(String usercode) {
+    public SysUser findUserByUserCode(String userCode) {
         SysUserExample sysUserExample = new SysUserExample();
         SysUserExample.Criteria criteria = sysUserExample.createCriteria();
-        criteria.andUsercodeEqualTo(usercode);
+        criteria.andUsercodeEqualTo(userCode);
         List<SysUser> list = sysUserMapper.selectByExample(sysUserExample);
 
         if (list != null && list.size() > 0) {
@@ -59,8 +59,13 @@ public class SysServiceImpl implements SysService {
     }
 
     @Override
-    public List<SysPermission> findPermissionListByUserId(int userid) {
-        return sysPermissionMapperCustom.findPermissionListByUserId(userid);
+    public List<SysPermission> findPermissionListByUserId(int userId) {
+        return sysPermissionMapperCustom.findPermissionListByUserId(userId);
+    }
+
+    @Override
+    public List<SysPermission> findMenuListByUserId(int userId) {
+        return sysPermissionMapperCustom.findMenuListByUserId(userId);
     }
 
     @Override

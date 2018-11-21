@@ -81,25 +81,15 @@ public class UserController {
     }
 
     //使用shiro认证用户
-//    @RequestMapping(value = "/login")
     @RequestMapping(value = "/login",method = RequestMethod.POST)
     @ResponseBody
-    public ActiveUser login(HttpServletRequest request) throws Exception {
-
+    public boolean login(HttpServletRequest request) throws Exception {
 
         //如果登陆失败从request中获取认证异常信息，shiroLoginFailure就是shiro异常类的全限定名
         String exceptionClassName = (String) request.getAttribute("shiroLoginFailure");
 
-        //这里区分认证失败，还是认证成功后二次登录。
-        //因为二次登录会跳过认证，正常执行controller。
         Subject subject = SecurityUtils.getSubject();
-        ActiveUser activeUser = (ActiveUser)subject.getPrincipal();
-        boolean isAuthenticated = subject.isAuthenticated();
-        logger.debug("activeUser:"+activeUser);
-
-
-        if (isAuthenticated) return activeUser;
-        else return null;
+        return subject.isAuthenticated();
 
         //根据shiro返回的异常类路径判断，抛出指定异常信息
 /*        if (exceptionClassName != null) {
@@ -123,6 +113,14 @@ public class UserController {
 
         //登陆失败还到login页面
 //        return "sysUser/login";
+    }
+
+
+    @RequestMapping(value = "/currentUser")
+    @ResponseBody
+    public ActiveUser currentUser() {
+        Subject subject = SecurityUtils.getSubject();
+        return (ActiveUser) subject.getPrincipal();
     }
 
     //get修改密码页面
@@ -157,7 +155,7 @@ public class UserController {
     //必须要加@ResponseBody,否则remote[]验证结果永远为false
     @ResponseBody
     public boolean validate_usercode(String usercode) {
-        return (sysService.findUserByUsercode(usercode) == null);
+        return (sysService.findUserByUserCode(usercode) == null);
     }
 
     //ajax验证修改密码时输入的原密码的正确性
@@ -174,7 +172,7 @@ public class UserController {
         String usercode = activeUser.getUsercode();
 
         //从数据库拿到用户的密码
-        SysUser sysUser = sysService.findUserByUsercode(usercode);
+        SysUser sysUser = sysService.findUserByUserCode(usercode);
         String db_password = sysUser.getPassword();
 
         //判断两个密码相等则返回true，不相等返回false

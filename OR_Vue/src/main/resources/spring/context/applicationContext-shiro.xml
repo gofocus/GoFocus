@@ -14,9 +14,11 @@
 		http://www.springframework.org/schema/tx
 		http://www.springframework.org/schema/tx/spring-tx-3.2.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
+    <!--自定义过滤器-->
     <bean id="myFormAuthenticationFilter" class="cn.itcast.ssm.shiro.MyFormAuthenticationFilter"/>
     <bean id="myLogoutFilter" class="cn.itcast.ssm.shiro.MyLogoutFilter"/>
 
+    <!--web.xml中shiroFilter对应的bean-->
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="securityManager"/>
         <property name="loginUrl" value="/user/login"/>
@@ -31,7 +33,7 @@
                 / = anon
                 /logout = logout
                 /user/login = authc
-                /** = authc
+                <!--/** = authc-->
             </value>
         </property>
         <property name="filters">

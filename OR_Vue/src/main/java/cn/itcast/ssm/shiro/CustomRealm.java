@@ -1,6 +1,5 @@
 package cn.itcast.ssm.shiro;
 
-import cn.itcast.ssm.controller.UserController;
 import cn.itcast.ssm.po.ActiveUser;
 import cn.itcast.ssm.po.SysPermission;
 import cn.itcast.ssm.po.SysUser;
@@ -40,10 +39,11 @@ public class CustomRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
 
-        String usercode = (String) authenticationToken.getPrincipal();
-        SysUser sysUser = sysService.findUserByUsercode(usercode);
+        String userCode = (String) authenticationToken.getPrincipal();
+        SysUser sysUser = sysService.findUserByUserCode(userCode);
 
-        if (sysUser == null) return null;
+        if (sysUser == null)
+            return null;
         else {
 
             String password = sysUser.getPassword();
@@ -53,9 +53,9 @@ public class CustomRealm extends AuthorizingRealm {
             activeUser.setUserid(sysUser.getId());
             activeUser.setUsercode(sysUser.getUsercode());
             activeUser.setUsername(sysUser.getUsername());
+            activeUser.setMenus(sysService.findMenuListByUserId(sysUser.getId()));
 
             logger.debug(activeUser.getUsercode());
-            logger.error("122121");
 
             return new SimpleAuthenticationInfo(activeUser, password, ByteSource.Util.bytes(salt), this.getName());
         }
@@ -66,21 +66,22 @@ public class CustomRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
 
         //从principal获取主身份信息
+        // 将getPrimaryPrincipal方法返回值转为真实身份类型（在上边的doGetAuthenticationInfo认证通过填充到SimpleAuthenticationInfo中身份类型）
         ActiveUser activeUser = (ActiveUser) principalCollection.getPrimaryPrincipal();
 
-
+        // 根据身份信息获取权限信息
+        // 从数据库获取到权限数据
         List<SysPermission> permissionListByUserId = sysService.findPermissionListByUserId(activeUser.getUserid());
 
         List<String> permissionList = new ArrayList<>();
-
         if (permissionListByUserId != null) {
             for (SysPermission permission : permissionListByUserId) {
                 permissionList.add(permission.getPercode());
             }
         }
 
+        //将授权信息填充到simpleAuthorizationInfo对象中
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
-
         simpleAuthorizationInfo.addStringPermissions(permissionList);
 
         return simpleAuthorizationInfo;

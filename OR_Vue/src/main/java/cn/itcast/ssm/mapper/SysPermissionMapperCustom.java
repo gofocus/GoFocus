@@ -9,5 +9,9 @@ import java.util.List;
  */
 public interface SysPermissionMapperCustom {
 
-    List<SysPermission> findPermissionListByUserId(int userid);
+    List<SysPermission> findPermissionListByUserId(int userId);
+
+    List<SysPermission> findMenuListByUserId(int userId);
+
+
 }
