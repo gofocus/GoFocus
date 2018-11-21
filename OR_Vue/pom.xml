@@ -104,12 +104,12 @@
             <version>1.1.0</version>
         </dependency>-->
 
-        <!--https://mvnrepository.com/artifact/org.ehcache/ehcache
+        <!--https://mvnrepository.com/artifact/org.ehcache/ehcache-->
         <dependency>
             <groupId>org.ehcache</groupId>
             <artifactId>ehcache</artifactId>
             <version>3.3.0</version>
-        </dependency>-->
+        </dependency>
 
 
         <!-- https://mvnrepository.com/artifact/org.apache.shiro/shiro-quartz -->
