@@ -82,17 +82,29 @@ public class UserController {
     }
 
     //使用shiro认证用户
-    @RequestMapping(value = "/login",method = RequestMethod.POST)
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
-    public boolean login(HttpServletRequest request) throws Exception {
+    public String login(HttpServletRequest request) throws Exception {
 
         //如果登陆失败从request中获取认证异常信息，shiroLoginFailure就是shiro异常类的全限定名
         String exceptionClassName = (String) request.getAttribute("shiroLoginFailure");
 
         Subject subject = SecurityUtils.getSubject();
-        return subject.isAuthenticated();
+        if (subject.isAuthenticated()) return "您已经登录";
+        else {
+            if (UnknownAccountException.class.getName().equals(exceptionClassName)) {
+                return "账号不存在";
+            } else if (IncorrectCredentialsException.class.getName().equals(exceptionClassName)) {
+                return "密码错误";
+            } else if ("randomCodeError".equals(exceptionClassName)) {
+                return "验证码错误";
+            } else {
+                return "其他错误";
+            }
+        }
+    }
 
-        //根据shiro返回的异常类路径判断，抛出指定异常信息
+    //根据shiro返回的异常类路径判断，抛出指定异常信息
 /*        if (exceptionClassName != null) {
             if (UnknownAccountException.class.getName().equals(exceptionClassName)) {
                 //最终会抛给异常处理器
@@ -110,11 +122,10 @@ public class UserController {
             }
         }*/
 
-        //!!!此方法不处理登陆成功（认证成功），shiro认证成功会自动跳转到上一个请求路径
+    //!!!此方法不处理登陆成功（认证成功），shiro认证成功会自动跳转到上一个请求路径
 
-        //登陆失败还到login页面
+    //登陆失败还到login页面
 //        return "sysUser/login";
-    }
 
 
     @RequestMapping(value = "/currentUser")

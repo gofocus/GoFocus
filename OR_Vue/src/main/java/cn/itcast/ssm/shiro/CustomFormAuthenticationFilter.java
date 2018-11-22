@@ -15,10 +15,17 @@ import javax.servlet.ServletResponse;
  * @Time: 10:51
  * @Description:
  */
-public class MyFormAuthenticationFilter extends FormAuthenticationFilter {
+public class CustomFormAuthenticationFilter extends FormAuthenticationFilter {
 
     @Override
     protected boolean onLoginSuccess(AuthenticationToken token, Subject subject, ServletRequest request, ServletResponse response) throws Exception {
         return false;
+    }
+
+    @Override
+    protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
+
+
+        return super.onAccessDenied(request, response);
     }
 }

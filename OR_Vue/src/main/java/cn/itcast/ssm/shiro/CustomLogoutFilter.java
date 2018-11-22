@@ -15,7 +15,7 @@ import javax.servlet.ServletResponse;
  * @Time: 11:07
  * @Description:
  */
-public class MyLogoutFilter extends LogoutFilter {
+public class CustomLogoutFilter extends LogoutFilter {
     private static final Logger log = LoggerFactory.getLogger(LogoutFilter.class);
 
     @Override
