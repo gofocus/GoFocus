@@ -29,6 +29,7 @@
         <!--<property name="unauthorizedUrl" value="/sysUser/refuse.html"/>-->
         <property name="filterChainDefinitions">
             <value>
+                /user/getGifCode = anon
                 /**/*.png = anon
                 /**/*.js = anon
                 /**/*.css = anon

@@ -19,6 +19,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -98,7 +99,7 @@ public class UserController {
                 return "账号不存在";
             } else if (IncorrectCredentialsException.class.getName().equals(exceptionClassName)) {
                 return "密码错误";
-            } else if ("randomCodeError".equals(exceptionClassName)) {
+            } else if (exceptionClassName.equals("captchaException")) {
                 return "验证码错误";
             } else {
                 return "其他错误";
@@ -215,20 +216,23 @@ public class UserController {
     @RequestMapping(value="/getGifCode",method=RequestMethod.GET)
     public void getGifCode(HttpServletResponse response,HttpServletRequest request){
         try {
-            response.setHeader("Pragma", "No-cache");
-            response.setHeader("Cache-Control", "no-cache");
+//            response.setHeader("Pragma", "No-cache");
+//            response.setHeader("Cache-Control", "no-cache");
             response.setDateHeader("Expires", 0);
             response.setContentType("image/gif");
-            /**
-             * gif格式动画验证码
-             * 宽，高，位数。
-             */
+
             Captcha captcha = new GifCaptcha(146,33,4);
             //输出
             captcha.out(response.getOutputStream());
-            HttpSession session = request.getSession(true);
+
+//            Subject subject = SecurityUtils.getSubject();
+//            Session session = subject.getSession();
+            HttpSession session = request.getSession(false);
             //存入Session
             session.setAttribute("_code",captcha.text().toLowerCase());
+            logger.debug(captcha.text());
+            response.setHeader("Access-Control-Allow-credentials","true");
+            logger.debug(session);
         } catch (Exception e) {
             System.out.println("wrong");
         }
