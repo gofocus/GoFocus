@@ -1,5 +1,7 @@
 package cn.itcast.ssm.controller;
 
+import cn.itcast.ssm.captcha.Captcha;
+import cn.itcast.ssm.captcha.GifCaptcha;
 import cn.itcast.ssm.exception.CustomException;
 import cn.itcast.ssm.po.*;
 import cn.itcast.ssm.service.ItemsService;
@@ -209,5 +211,27 @@ public class UserController {
 
     }
 
+
+    @RequestMapping(value="/getGifCode",method=RequestMethod.GET)
+    public void getGifCode(HttpServletResponse response,HttpServletRequest request){
+        try {
+            response.setHeader("Pragma", "No-cache");
+            response.setHeader("Cache-Control", "no-cache");
+            response.setDateHeader("Expires", 0);
+            response.setContentType("image/gif");
+            /**
+             * gif格式动画验证码
+             * 宽，高，位数。
+             */
+            Captcha captcha = new GifCaptcha(146,33,4);
+            //输出
+            captcha.out(response.getOutputStream());
+            HttpSession session = request.getSession(true);
+            //存入Session
+            session.setAttribute("_code",captcha.text().toLowerCase());
+        } catch (Exception e) {
+            System.out.println("wrong");
+        }
+    }
 
 }
