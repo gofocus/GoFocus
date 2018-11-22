@@ -35,11 +35,7 @@ public class CustomFormAuthenticationFilter extends FormAuthenticationFilter {
         //将ServletRequest转换为HttpServletRequest
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         //获取session
-        HttpSession session = httpServletRequest.getSession(false);
-       logger.debug(session);
-
-//        Subject subject = SecurityUtils.getSubject();
-//        Session session = subject.getSession();
+        HttpSession session = httpServletRequest.getSession();
 
         //后台生成的验证码
         String _code = (String)session.getAttribute("_code");
@@ -49,7 +45,8 @@ public class CustomFormAuthenticationFilter extends FormAuthenticationFilter {
         //校验失败，将错误信息设置到request的shiroLoginFailure中
         if (!captcha.equals(_code)){
             httpServletRequest.setAttribute("shiroLoginFailure","captchaException");
-            return false;
+            //拒绝访问
+            return true;
         }
 
         //验证码校验成功，继续执行默认的认证步骤

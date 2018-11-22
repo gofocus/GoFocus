@@ -24,6 +24,7 @@ public class CustomLogoutFilter extends LogoutFilter {
 
         try {
             subject.logout();
+            subject.getSession(true);
         } catch (SessionException var6) {
             log.debug("Encountered session exception during logout.  This can generally safely be ignored.", var6);
         }

@@ -54,7 +54,7 @@
         <!--注入自定义realm-->
         <property name="realm" ref="customRealm"/>
         <!--注入缓存管理器-->
-        <property name="cacheManager" ref="cacheManager"/>
+        <!--<property name="cacheManager" ref="cacheManager"/>-->
         <!--注入session管理器-->
         <property name="sessionManager" ref="sessionManager"/>
 
@@ -81,6 +81,15 @@
         <!--session失效时长，单位为毫秒-->
         <property name="globalSessionTimeout" value="6000000" />
         <property name="deleteInvalidSessions" value="true"/>
+        <!--<property name="sessionDAO" ref="sessionDAO"/>-->
+
+        <property name="sessionIdCookieEnabled" value="true"/>
+        <property name="sessionIdCookie" ref="sessionIdCookie"/>
+
+    </bean>
+
+    <bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+        <constructor-arg name="name" value="new.session.id"/>
     </bean>
 
     <!--<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">

@@ -20,7 +20,9 @@ import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.session.Session;
+import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.subject.Subject;
+import org.apache.shiro.web.session.mgt.ServletContainerSessionManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -84,9 +86,38 @@ public class UserController {
 
     }
 
+    //验证码
+    @RequestMapping(value="/getGifCode",method=RequestMethod.GET)
+    public void getGifCode(HttpServletResponse response,HttpServletRequest request){
+        try {
+//            response.setHeader("Pragma", "No-cache");
+//            response.setHeader("Cache-Control", "no-cache");
+//            response.setDateHeader("Expires", 0);
+            response.setContentType("image/gif");
+
+            Captcha captcha = new GifCaptcha(146,33,4);
+            //输出
+            captcha.out(response.getOutputStream());
+
+            Subject subject = SecurityUtils.getSubject();
+            Session session = subject.getSession();
+//            HttpSession session = request.getSession(true);
+//            Session session = new ServletContainerSessionManager().getSession();
+
+            //存入Session
+            session.setAttribute("_code",captcha.text().toLowerCase());
+            logger.debug(captcha.text());
+            response.setHeader("Access-Control-Allow-credentials","true");
+            logger.debug("session:"+ session);
+        } catch (Exception e) {
+            System.out.println("wrong");
+        }
+    }
+
     //使用shiro认证用户
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
+    //此方法不处理认证成功，shiro认证成功默认自动跳转到上一个请求路径
     public String login(HttpServletRequest request) throws Exception {
 
         //如果登陆失败从request中获取认证异常信息，shiroLoginFailure就是shiro异常类的全限定名
@@ -106,30 +137,6 @@ public class UserController {
             }
         }
     }
-
-    //根据shiro返回的异常类路径判断，抛出指定异常信息
-/*        if (exceptionClassName != null) {
-            if (UnknownAccountException.class.getName().equals(exceptionClassName)) {
-                //最终会抛给异常处理器
-//                return ;
-                throw new CustomException("账号不存在");
-            } else if (IncorrectCredentialsException.class.getName().equals(
-                    exceptionClassName)) {
-//                return ;
-                throw new CustomException("用户名/密码错误");
-                } else if("randomCodeError".equals(exceptionClassName)){
-                    throw new CustomException("验证码错误 ");
-            } else {
-//                return ;
-                throw new Exception();//最终在异常处理器生成未知错误
-            }
-        }*/
-
-    //!!!此方法不处理登陆成功（认证成功），shiro认证成功会自动跳转到上一个请求路径
-
-    //登陆失败还到login页面
-//        return "sysUser/login";
-
 
     @RequestMapping(value = "/currentUser")
     @ResponseBody
@@ -212,30 +219,5 @@ public class UserController {
 
     }
 
-
-    @RequestMapping(value="/getGifCode",method=RequestMethod.GET)
-    public void getGifCode(HttpServletResponse response,HttpServletRequest request){
-        try {
-//            response.setHeader("Pragma", "No-cache");
-//            response.setHeader("Cache-Control", "no-cache");
-            response.setDateHeader("Expires", 0);
-            response.setContentType("image/gif");
-
-            Captcha captcha = new GifCaptcha(146,33,4);
-            //输出
-            captcha.out(response.getOutputStream());
-
-//            Subject subject = SecurityUtils.getSubject();
-//            Session session = subject.getSession();
-            HttpSession session = request.getSession(false);
-            //存入Session
-            session.setAttribute("_code",captcha.text().toLowerCase());
-            logger.debug(captcha.text());
-            response.setHeader("Access-Control-Allow-credentials","true");
-            logger.debug(session);
-        } catch (Exception e) {
-            System.out.println("wrong");
-        }
-    }
 
 }
