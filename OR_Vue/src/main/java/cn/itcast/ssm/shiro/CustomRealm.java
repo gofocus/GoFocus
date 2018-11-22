@@ -6,6 +6,7 @@ import cn.itcast.ssm.po.SysUser;
 import cn.itcast.ssm.service.SysService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -86,4 +87,11 @@ public class CustomRealm extends AuthorizingRealm {
 
         return simpleAuthorizationInfo;
     }
+
+//    清除缓存，在修改权限Service中注入这个realm，调用clearCache()
+    public void clearCache(){
+        PrincipalCollection principal = SecurityUtils.getSubject().getPrincipals();
+        super.clearCache(principal);
+    }
+
 }
