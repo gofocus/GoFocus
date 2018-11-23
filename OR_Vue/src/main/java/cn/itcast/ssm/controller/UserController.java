@@ -96,13 +96,12 @@ public class UserController {
             response.setContentType("image/gif");
 
             Captcha captcha = new GifCaptcha(146,33,4);
-            //输出
             captcha.out(response.getOutputStream());
 
-            Subject subject = SecurityUtils.getSubject();
-            Session session = subject.getSession();
-//            HttpSession session = request.getSession(true);
-//            Session session = new ServletContainerSessionManager().getSession();
+//            Subject subject = SecurityUtils.getSubject();
+//            Session session = subject.getSession();
+
+            HttpSession session = request.getSession();
 
             //存入Session
             session.setAttribute("_code",captcha.text().toLowerCase());
