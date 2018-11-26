@@ -55,7 +55,17 @@ public class CustomRealm extends AuthorizingRealm {
             activeUser.setUsercode(sysUser.getUsercode());
             activeUser.setUsername(sysUser.getUsername());
             activeUser.setMenus(sysService.findMenuListByUserId(sysUser.getId()));
-            activeUser.setPermissions(sysService.findPermissionListByUserId(sysUser.getId()));
+
+//            activeUser.setPermissions(sysService.findPermissionListByUserId(sysUser.getId()));
+            List<SysPermission> permissionListByUserId = sysService.findPermissionListByUserId(activeUser.getUserid());
+            List<String> permissionList = new ArrayList<>();
+            if (permissionListByUserId != null) {
+                for (SysPermission permission : permissionListByUserId) {
+                    permissionList.add(permission.getPercode());
+                }
+            }
+            activeUser.setPermissionList(permissionList);
+
 
             logger.debug(activeUser.getUsercode());
 

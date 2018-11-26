@@ -13,7 +13,8 @@ public class ActiveUser implements Serializable {
     private String username;
     private List<SysPermission> permissions;
     private List<SysPermission> menus;
-
+    private boolean requireCpatcha;
+    private List<String> permissionList;
 
     public int getUserid() {
         return userid;
@@ -53,5 +54,21 @@ public class ActiveUser implements Serializable {
 
     public void setMenus(List<SysPermission> menus) {
         this.menus = menus;
+    }
+
+    public boolean isRequireCpatcha() {
+        return requireCpatcha;
+    }
+
+    public void setRequireCpatcha(boolean requireCpatcha) {
+        this.requireCpatcha = requireCpatcha;
+    }
+
+    public List<String> getPermissionList() {
+        return permissionList;
+    }
+
+    public void setPermissionList(List<String> permissionList) {
+        this.permissionList = permissionList;
     }
 }

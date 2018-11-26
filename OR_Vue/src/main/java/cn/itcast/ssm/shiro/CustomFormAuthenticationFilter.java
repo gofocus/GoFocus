@@ -8,6 +8,7 @@ import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
+import org.apache.shiro.web.util.WebUtils;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -32,21 +33,28 @@ public class CustomFormAuthenticationFilter extends FormAuthenticationFilter {
     //重写方法校验验证码
     @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
+
         //将ServletRequest转换为HttpServletRequest
-        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+        HttpServletRequest httpServletRequest = WebUtils.toHttp(request);
+
+//        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         //获取session
         HttpSession session = httpServletRequest.getSession();
+        String requireCaptcha = httpServletRequest.getParameter("requireCaptcha");
 
-        //后台生成的验证码
-        String _code = (String)session.getAttribute("_code");
-        //用户输入的验证码
-        String captcha = httpServletRequest.getParameter("captcha");
+        if (requireCaptcha.equals("true")) {
 
-        //校验失败，将错误信息设置到request的shiroLoginFailure中
-        if (!captcha.equals(_code)){
-            httpServletRequest.setAttribute("shiroLoginFailure","captchaException");
-            //拒绝访问
-            return true;
+            //后台生成的验证码
+            String _code = (String) session.getAttribute("_code");
+            //用户输入的验证码
+            String captcha = httpServletRequest.getParameter("captcha");
+
+            //校验失败，将错误信息设置到request的shiroLoginFailure中
+            if (!captcha.equals(_code)) {
+                httpServletRequest.setAttribute("shiroLoginFailure", "captchaException");
+                //拒绝访问
+                return true;
+            }
         }
 
         //验证码校验成功，继续执行默认的认证步骤

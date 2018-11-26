@@ -23,6 +23,7 @@ import org.apache.shiro.session.Session;
 import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.session.mgt.ServletContainerSessionManager;
+import org.apache.shiro.web.util.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -88,26 +89,30 @@ public class UserController {
 
     //验证码
     @RequestMapping(value="/getGifCode",method=RequestMethod.GET)
+//    @ResponseBody
     public void getGifCode(HttpServletResponse response,HttpServletRequest request){
         try {
-//            response.setHeader("Pragma", "No-cache");
-//            response.setHeader("Cache-Control", "no-cache");
-//            response.setDateHeader("Expires", 0);
+            response.setHeader("Pragma", "No-cache");
+            response.setHeader("Cache-Control", "no-cache");
+            response.setDateHeader("Expires", 0);
             response.setContentType("image/gif");
 
             Captcha captcha = new GifCaptcha(146,33,4);
             captcha.out(response.getOutputStream());
 
+//            HttpServletRequest httpServletRequest = WebUtils.toHttp(request);
+//            HttpSession session = httpServletRequest.getSession();
+
 //            Subject subject = SecurityUtils.getSubject();
 //            Session session = subject.getSession();
-
             HttpSession session = request.getSession();
 
             //存入Session
             session.setAttribute("_code",captcha.text().toLowerCase());
             logger.debug(captcha.text());
-            response.setHeader("Access-Control-Allow-credentials","true");
             logger.debug("session:"+ session);
+
+//            response.setHeader("Access-Control-Allow-credentials","true");
         } catch (Exception e) {
             System.out.println("wrong");
         }
@@ -141,7 +146,9 @@ public class UserController {
     @ResponseBody
     public ActiveUser currentUser() {
         Subject subject = SecurityUtils.getSubject();
-        return (ActiveUser) subject.getPrincipal();
+        ActiveUser activeUser = (ActiveUser) subject.getPrincipal();
+
+        return activeUser;
     }
 
     //get修改密码页面
