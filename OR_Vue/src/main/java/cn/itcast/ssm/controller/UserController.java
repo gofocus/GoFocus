@@ -88,16 +88,16 @@ public class UserController {
     }
 
     //验证码
-    @RequestMapping(value="/getGifCode",method=RequestMethod.GET)
+    @RequestMapping(value = "/getGifCode", method = RequestMethod.GET)
 //    @ResponseBody
-    public void getGifCode(HttpServletResponse response,HttpServletRequest request){
+    public void getGifCode(HttpServletResponse response, HttpServletRequest request) {
         try {
             response.setHeader("Pragma", "No-cache");
             response.setHeader("Cache-Control", "no-cache");
             response.setDateHeader("Expires", 0);
             response.setContentType("image/gif");
 
-            Captcha captcha = new GifCaptcha(146,33,4);
+            Captcha captcha = new GifCaptcha(146, 33, 4);
             captcha.out(response.getOutputStream());
 
 //            HttpServletRequest httpServletRequest = WebUtils.toHttp(request);
@@ -108,9 +108,9 @@ public class UserController {
             HttpSession session = request.getSession();
 
             //存入Session
-            session.setAttribute("_code",captcha.text().toLowerCase());
+            session.setAttribute("_code", captcha.text().toLowerCase());
             logger.debug(captcha.text());
-            logger.debug("session:"+ session);
+            logger.debug("session:" + session);
 
 //            response.setHeader("Access-Control-Allow-credentials","true");
         } catch (Exception e) {
@@ -147,7 +147,7 @@ public class UserController {
     public ActiveUser currentUser() {
         Subject subject = SecurityUtils.getSubject();
         ActiveUser activeUser = (ActiveUser) subject.getPrincipal();
-
+        if (activeUser == null) return null;
         return activeUser;
     }
 
