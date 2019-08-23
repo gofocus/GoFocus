@@ -20,13 +20,13 @@
                 <div class="main-menu display-inline hidden-sm hidden-xs">
                     <nav>
                         <ul>
-                            <label>欢迎,<@shiro.principal property="username"/></label>
-                            <@shiro.guest>
+                            <#--<label>欢迎,<@shiro.principal property="username"/></label>-->
+                            <#--<@shiro.guest>-->
                                 <li><a href="#" onclick="login()">登录</a></li>
                                 <li><a href="#" onclick="register()">注册</a></li>
                                 <#--<li><a href="/user/login">登录</a></li>-->
                                 <#--<li><a href="/user/register">注册</a></li>-->
-                            </@shiro.guest>
+                            <#--</@shiro.guest>-->
                             <@shiro.user>
                                 <li><a href="/user/logout">注销</a></li>
                             </@shiro.user>
