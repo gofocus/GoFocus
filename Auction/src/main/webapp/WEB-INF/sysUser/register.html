@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" >
+    <title>注册用户</title>
+
+    <script type="text/javascript" src="/js/jquery-3.2.0.js"></script>
+    <script type="text/javascript" src="/js/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+    <script type="text/javascript" src="/js/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="/js/messages_zh.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.form.min.js"></script>
+
+    <link rel="stylesheet" href="/js/jquery-ui-1.12.1.custom/jquery-ui.css"  >
+    <link rel="stylesheet" href="/js/jquery-ui-1.12.1.custom/jquery-ui.theme.css"  >
+    <link rel="stylesheet" href="/js/jquery-ui-1.12.1.custom/jquery-ui.structure.css" >
+    <link rel="stylesheet" href="/css/myStyle.css"  type="text/css">
+
+    <script type="text/javascript">
+
+        $(function () {
+            $('button').click(function () {
+                $("#reg").dialog('open');
+
+            });
+            $("#reg").dialog({
+                autoOpen: true,
+                title: "注册",
+                modal: true,
+                resizable: false,
+                height: 380,
+                width: 320,
+                buttons: {
+                    "提交": function () {
+                        $(this).submit();
+                    },
+                    "返回":function(){
+                        location.href="/";
+                    }
+                }
+            }).buttonset().validate({
+                submitHandler: function (form) {
+                    $(form).ajaxSubmit({
+                        url:'/user/register',
+                        type:'POST',
+                        resetForm:true,
+                        success:function () {
+                            alert("注册成功");
+                            location.href ="/";
+                        }
+                    });
+                    return false;
+                },
+                rules: {
+                    usercode:{
+                        required:true,
+                        minlength:2
+                    },
+                    username: {
+                        required: true,
+                        minlength: 2,
+                    },
+                    email: {
+                        required: true,
+                        email: true
+                    },
+                    password:{
+                        required:true,
+                        minlength:6
+                    },
+                    password2:{
+                        equalTo:"#password"
+                    }
+                },
+                messages: {
+                    usercode:{
+                        required:"账号不能为空"
+                    },
+                    username:{
+                        required:"用户名不能为空"
+                    },
+                    email:{
+                        required:"邮箱不能为空"
+                    },password:{
+                        required:"密码不能为空"
+                    },
+                    password2:{
+                        equalTo:"密码必须前后一致"
+                    }
+                }
+            })
+        })
+
+    </script>
+
+</head>
+<body>
+<div >
+    <form id="reg" >
+        <p>
+            <label for="usercode">账户：</label>
+            <input id="usercode" type="text" name="usercode" class="text" />
+            <span class="star">*</span>
+        </p>
+        <p>
+            <label for="username">昵称：</label>
+            <input id="username" type="text" name="username" class="text" />
+            <span class="star">*</span>
+        </p>
+        <!--<p>
+            <label for="email">邮箱：</label>
+            <input id="email" type="email" name="email" class="text" />
+            <span class="star">*</span>
+        </p>-->
+        <p>
+            <label for="password">密码：</label>
+            <input id="password" type="password" name="password" class="text" />
+            <span class="star">*</span>
+        </p>
+        <p>
+            <label for="password2">确认：</label>
+            <input id="password2" type="password" name="password2" class="text" />
+            <span class="star">*</span>
+        </p>
+        <!--<p>
+            <label for="male">性别：</label>
+            <input id="male" type="radio" name="sex" value="1"  class="text" checked="checked"/><label for="male">男</label><input id="female" type="radio" name="sex" value="2"  class="text" checked="checked"/><label for="female">女</label>
+
+        </p>
+        <p>
+            <label for="birthday">生日：</label>
+            <input id="birthday" type="date" name="birthday" class="text" />
+        </p>-->
+    </form>
+</div>
+
+
+</body>
+</html>

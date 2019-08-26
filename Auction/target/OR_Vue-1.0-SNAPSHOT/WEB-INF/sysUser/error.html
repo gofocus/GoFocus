@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>error</title>
+    <#include "/ftl/include_head.html"/>
+
+    <script type="text/javascript">
+        $(function () {
+            var message = $("input").val();
+            alert(message);
+            location.href="/";
+        })
+    </script>
+</head>
+<body>
+    <input type="hidden" value="${message}">
+</body>
+</html>
+
+

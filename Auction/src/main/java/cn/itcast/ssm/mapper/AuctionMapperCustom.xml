@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.itcast.ssm.mapper.AuctionMapperCustom">
+
+
+    <!--返回自增主键-->
+    <insert id="deal" parameterType="cn.itcast.ssm.po.Auction">
+        <selectKey keyProperty="id"  order="AFTER"  resultType="int">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into auction (auctioneer, highest_bid,
+        second_bid, successful_bidder
+        )
+        values (#{auctioneer,jdbcType=VARCHAR}, #{highestBid,jdbcType=INTEGER},
+        #{secondBid,jdbcType=INTEGER}, #{successfulBidder,jdbcType=VARCHAR}
+        )
+    </insert>
+
+
+</mapper>
+
+
+
+
+

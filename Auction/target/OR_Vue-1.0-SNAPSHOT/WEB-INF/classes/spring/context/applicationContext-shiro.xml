@@ -1,0 +1,113 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/mvc
+		http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-3.2.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx-3.2.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <!--自定义过滤器-->
+    <bean id="myFormAuthenticationFilter" class="cn.itcast.ssm.shiro.CustomFormAuthenticationFilter">
+        <!--自定义表单验证参数名称-->
+        <property name="usernameParam" value="username"/>
+        <property name="passwordParam" value="password"/>
+    </bean>
+    <bean id="myLogoutFilter" class="cn.itcast.ssm.shiro.CustomLogoutFilter"/>
+
+    <!--web.xml中shiroFilter对应的bean-->
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <property name="securityManager" ref="securityManager"/>
+        <property name="loginUrl" value="/user/login"/>
+        <!--<property name="unauthorizedUrl" value="/sysUser/refuse.html"/>-->
+        <property name="filterChainDefinitions">
+            <value>
+                /user/getGifCode = anon
+                /**/*.png = anon
+                /**/*.js = anon
+                /**/*.css = anon
+                /**/*.jpg = anon
+                /fonts/** = anon
+                / = anon
+                /logout = logout
+                /user/login = authc
+                <!--/** = authc-->
+            </value>
+        </property>
+        <property name="filters">
+            <util:map>
+                <entry key="authc" value-ref="myFormAuthenticationFilter"/>
+                <entry key="logout" value-ref="myLogoutFilter"/>
+            </util:map>
+        </property>
+    </bean>
+
+    <!--securityManager 安全管理器-->
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <!--注入自定义realm-->
+        <property name="realm" ref="customRealm"/>
+        <!--注入缓存管理器-->
+        <!--<property name="cacheManager" ref="cacheManager"/>-->
+        <!--注入session管理器-->
+        <property name="sessionManager" ref="sessionManager"/>
+
+    </bean>
+
+    <!--自定义realm-->
+    <bean id="customRealm" class="cn.itcast.ssm.shiro.CustomRealm">
+        <property name="credentialsMatcher" ref="credentialsMatcher"/>
+    </bean>
+
+    <!--凭证匹配器-->
+    <bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+        <property name="hashAlgorithmName" value="md5"/>
+        <property name="hashIterations" value="1"/>
+    </bean>
+
+    <!--缓存管理器-->
+    <bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+        <property name="cacheManagerConfigFile" value="classpath:shiro-ehcache.xml"/>
+    </bean>
+
+    <!--session管理器-->
+    <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+        <!--session失效时长，单位为毫秒-->
+        <property name="globalSessionTimeout" value="6000000" />
+        <property name="deleteInvalidSessions" value="true"/>
+        <!--<property name="sessionDAO" ref="sessionDAO"/>-->
+
+        <property name="sessionIdCookieEnabled" value="true"/>
+        <property name="sessionIdCookie" ref="sessionIdCookie"/>
+
+    </bean>
+
+    <bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+        <constructor-arg name="name" value="new.session.id"/>
+    </bean>
+
+    <!--<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <property name="exceptionMappings">
+            <props>
+                &lt;!&ndash;登录&ndash;&gt;
+                &lt;!&ndash;<prop key="org.apache.shiro.authz.UnauthenticatedException">
+                    redirect:/login.htm
+                </prop>&ndash;&gt;
+                &lt;!&ndash;验权失败，跳转页面 &ndash;&gt;
+                <prop key="org.apache.shiro.authz.UnauthorizedException">
+                    redirect:/sysUser/refuse.html
+                </prop>
+            </props>
+        </property>
+    </bean>-->
+
+
+</beans>
+
+
