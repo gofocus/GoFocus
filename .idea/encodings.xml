@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="Encoding" native2AsciiForPropertiesFiles="true" defaultCharsetForPropertiesFiles="GBK">
-    <file url="file://$PROJECT_DIR$" charset="UTF-8" />
+  <component name="Encoding" native2AsciiForPropertiesFiles="true" defaultCharsetForPropertiesFiles="UTF-8">
+    <file url="file://$PROJECT_DIR$/Auction" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/OR" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/OR_Vue" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/dubbo-demo-server-master" charset="UTF-8" />
@@ -9,30 +9,6 @@
     <file url="file://$PROJECT_DIR$/dubbo-demo-server-master/dubbo-demo-common" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/dubbo-demo-server-master/dubbo-demo-system-api" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/dubbo-demo-server-master/dubbo-demo-system-provider" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/shiro-root-1.3.2" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/shiro-root-1.3.2/all" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/shiro-root-1.3.2/core" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/shiro-root-1.3.2/samples" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/shiro-root-1.3.2/samples/aspectj" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/shiro-root-1.3.2/samples/guice" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/shiro-root-1.3.2/samples/quickstart" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/shiro-root-1.3.2/samples/quickstart-guice" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/shiro-root-1.3.2/samples/spring" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/shiro-root-1.3.2/samples/spring-client" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/shiro-root-1.3.2/samples/spring-hibernate" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/shiro-root-1.3.2/samples/web" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/shiro-root-1.3.2/support" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/shiro-root-1.3.2/support/aspectj" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/shiro-root-1.3.2/support/cas" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/shiro-root-1.3.2/support/ehcache" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/shiro-root-1.3.2/support/features" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/shiro-root-1.3.2/support/guice" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/shiro-root-1.3.2/support/hazelcast" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/shiro-root-1.3.2/support/quartz" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/shiro-root-1.3.2/support/spring" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/shiro-root-1.3.2/tools" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/shiro-root-1.3.2/tools/hasher" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/shiro-root-1.3.2/web" charset="UTF-8" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>
